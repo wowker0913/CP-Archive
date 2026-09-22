@@ -2,6 +2,19 @@
 
 网站的文字与条目统一维护在 `data/site-data.js`，页面结构通常不需要修改。
 
+## 视觉变量
+
+统一视觉变量在 `style.css` 文件开头的 `:root` 中，并附有中文用途注释。常用调整点：
+
+- `--color-qkm` / `--color-qkm-deep`：覃柯蒙的青石蓝与深色标题。
+- `--color-gcm` / `--color-gcm-deep`：龚晨美的鼠尾草绿与深色标题。
+- `--color-paper` / `--color-paper-deep`：米灰背景与次级表面。
+- `--font-display` / `--font-body`：标题衬线体与中文正文系统字体。
+- `--text-title` / `--text-hero`：使用 `clamp()` 自动适配不同屏幕的内页标题与首页大名字。
+- `--space-1` 至 `--space-7`：统一页面留白。
+
+中文字体优先使用访客设备上的系统字体，不依赖 Google Fonts；这样在大陆网络环境下也能稳定加载。
+
 ## Profile
 
 在 `people` 中修改对应人物：
