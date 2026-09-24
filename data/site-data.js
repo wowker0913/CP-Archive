@@ -15,7 +15,7 @@ window.SITE_DATA = {
       name: "覃柯蒙",
       color: "blue",
       image: "images/qkm.jpg",
-      intro: "2026.7.12 山西人 SNH48teamHII",
+      intro: "2002.7.12 山西人 SNH48teamHII",
       facts: [ 
         { label: "昵称", value: "Yuki、覃妤千、可萌" },
         { label: "应援色", value: "蓝色" },
