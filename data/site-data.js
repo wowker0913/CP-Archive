@@ -87,7 +87,7 @@ window.SITE_DATA = {
     { id:"event-2026-06", date:"2026-06-04", title:"260604赫兹", summary:"monster", source:"https://www.bilibili.com/video/BV1vjEP6XEoW?t=416.8&p=5"},
     { id:"event-2025-05", date:"2025-05-30", title:"250530头号新闻", summary:"夏之回忆", source:"https://www.bilibili.com/video/BV1jL7pzpEs6?t=280.9&p=6"},
     { id:"event-2026-08", date:"2026-08-09", title:"龚晨美直播", summary:"我腿好痛我背你", source:"https://www.bilibili.com/video/BV1WkuG6vEsn?t=2.3"},
-    { id:"event-2025-03", date:"2025-03-19", title:"龚晨美直播", summary:"二十二期预备生 龚晨美&覃柯蒙（覃妤千）打卡报道", source:"https://weibo.com/2689280541/PjfJLjpcR"},
+    { id:"event-2025-03", date:"2025-03-19", title:"官博报道", summary:"二十二期预备生 龚晨美&覃柯蒙（覃妤千）打卡报道", source:"https://weibo.com/2689280541/PjfJLjpcR"},
     { id:"event-2025-09", date:"2025-09-11", title:"25911头号新闻", summary:"找手机", source:"https://www.bilibili.com/video/BV1gAHvz9E41?t=133.8&p=4"},
     { id:"event-2026-03", date:"2026-03-08", title:"口袋直播", summary:"龚晨美、覃柯蒙 KTV直播双视角", source:"https://www.bilibili.com/video/BV1ufPXztErS?t=0.0"},
     { id: "event-2026-07", date: "2026-07-20", title: "24/7 • 整蛊之夜", summary: "互动cut", source: "https://www.bilibili.com/video/BV1J5hj6dEW5?t=0.0" },
