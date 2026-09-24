@@ -2,6 +2,7 @@
   "use strict";
   const data = window.SITE_DATA;
   if (!data) return;
+  document.documentElement.classList.add("js");
   const currentPage = document.body.dataset.page;
   const navItems = [["home", "01", "HOME", "index.html"], ["profile", "02", "PROFILE", "profile.html"], ["timeline", "03", "TIMELINE", "timeline.html"], ["archive", "04", "ARCHIVE", "archive.html"]];
   const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (char) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"}[char]));
@@ -43,30 +44,123 @@
     return sharedDate ? (event.id || date) : (date || event.id);
   }
 
+
+  function isIsoDate(value) {
+    return /^\d{4}-\d{2}-\d{2}$/.test(value || "");
+  }
+
+  function eventSpan(event) {
+    const start = event.date || "";
+    const end = event.endDate || "";
+    const startLabel = start.replaceAll("-", ".");
+    if (!isIsoDate(start) || !isIsoDate(end) || end <= start) return { start, end: "", label: startLabel, markup: "" };
+    const endLabel = end.replaceAll("-", ".");
+    const sameYear = start.slice(0, 4) === end.slice(0, 4);
+    const visibleEnd = sameYear ? endLabel.slice(5) : endLabel;
+    const label = startLabel + " \u2014 " + visibleEnd;
+    const markup = '<span class="range-start">' + escapeHtml(startLabel) + '</span><span class="range-mark" aria-hidden="true">\u2014</span><span class="range-end">' + escapeHtml(visibleEnd) + "</span>";
+    return { start, end, label, markup };
+  }
+
+  function eventYears(event) {
+    const startYear = (event.date || "").slice(0, 4);
+    if (!/^\d{4}$/.test(startYear)) return [];
+    const years = [startYear];
+    if (!isIsoDate(event.endDate) || event.endDate <= (event.date || "")) return years;
+    const endYear = event.endDate.slice(0, 4);
+    const from = Number(startYear);
+    const to = Number(endYear);
+    if (!Number.isFinite(to) || to <= from) return years;
+    if (to - from > 20) return [startYear, endYear];
+    for (let year = from + 1; year <= to; year += 1) years.push(String(year));
+    return years;
+  }
+
+  function ensureShotDialog() {
+    let dialog = document.querySelector("#shot-dialog");
+    if (dialog) return dialog;
+    dialog = document.createElement("dialog");
+    dialog.id = "shot-dialog";
+    dialog.className = "shot-dialog";
+    dialog.setAttribute("aria-label", "查看截图");
+    dialog.innerHTML = '<div class="shot-stage"><div class="shot-frame"><img alt=""><button class="dialog-close" type="button" aria-label="关闭">×</button></div><a class="shot-source" target="_blank" rel="noopener noreferrer" hidden>查看原博 <span aria-hidden="true">↗</span></a></div>';
+    document.body.appendChild(dialog);
+    const image = dialog.querySelector("img");
+    const link = dialog.querySelector(".shot-source");
+    dialog.querySelector(".dialog-close").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => { if (event.target === dialog || event.target === dialog.querySelector(".shot-stage")) dialog.close(); });
+    dialog.showShot = (button) => {
+      const source = button.dataset.shotSource || "";
+      image.src = button.dataset.shotSrc || "";
+      image.alt = button.dataset.shotAlt || "互动截图";
+      if (/^https?:\/\//i.test(source)) {
+        link.href = source;
+        link.hidden = false;
+      } else {
+        link.hidden = true;
+        link.removeAttribute("href");
+      }
+      if (typeof dialog.showModal === "function" && !dialog.open) dialog.showModal();
+    };
+    return dialog;
+  }
+
   function renderTimeline() {
     const root = document.querySelector("#timeline-list");
     const select = document.querySelector("#year-filter");
     const sortButtons = [...document.querySelectorAll(".timeline-sort [data-order]")];
     if (!root || !select) return;
     const events = [...data.timeline];
-    const years = [...new Set(events.map((event) => (event.date || "").slice(0, 4)).filter(Boolean))].sort((a, b) => b.localeCompare(a));
+    const years = [...new Set(events.flatMap(eventYears))].sort((a, b) => b.localeCompare(a));
     years.forEach((year) => select.insertAdjacentHTML("beforeend", `<option value="${escapeHtml(year)}">${escapeHtml(year)} \u5e74</option>`));
     select.disabled = years.length === 0;
     let order = "desc";
     const draw = () => {
       const year = select.value || "all";
       const items = events
-        .filter((event) => year === "all" || (event.date || "").startsWith(year))
+        .filter((event) => year === "all" || eventYears(event).includes(year))
         .sort((a, b) => order === "asc" ? (a.date || "").localeCompare(b.date || "") : (b.date || "").localeCompare(a.date || ""));
-      root.innerHTML = items.length ? items.map((event) => {
-        const rawSources = Array.isArray(event.sources) ? event.sources : (event.source ? [event.source] : []);
+      const eventBody = (event) => {
+        const rawSources = [].concat(event.sources || event.source || []);
         const sources = rawSources.map((source) => typeof source === "string" ? { label: "\u67e5\u770b\u539f\u59cb\u6765\u6e90", url: source } : source).filter((source) => source && source.url);
         const sourceLinks = sources.length ? `<div class="timeline-sources">${sources.map((source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || "\u67e5\u770b\u539f\u59cb\u6765\u6e90")} <span aria-hidden="true">\u2197</span></a>`).join("")}</div>` : "";
-        return `<article class="timeline-entry reveal" id="${escapeHtml(timelineAnchor(event, data.timeline))}"><time datetime="${escapeHtml(event.date)}">${escapeHtml(event.date.replaceAll("-", "."))}</time><span class="timeline-node" aria-hidden="true"></span><div><h2>${escapeHtml(event.title)}</h2><p>${escapeHtml(event.summary)}</p>${sourceLinks}</div></article>`;
+        const shots = Array.isArray(event.images) ? event.images.filter((image) => image && image.src && !String(image.src).includes("帖子完整链接")) : [];
+        const shotStrip = shots.length ? `<div class="timeline-shots">${shots.map((image) => `<button type="button" class="timeline-shot" data-shot-src="${escapeHtml(image.src)}" data-shot-alt="${escapeHtml(image.alt || event.title || "互动截图")}" data-shot-source="${escapeHtml(image.source || "")}"><img src="${escapeHtml(image.thumb || image.src)}" alt="${escapeHtml(image.alt || event.title || "互动截图")}" loading="lazy"></button>`).join("")}</div>` : "";
+        return `<h2>${escapeHtml(event.title)}</h2><p>${escapeHtml(event.summary)}</p>${shotStrip}${sourceLinks}`;
+      };
+      const groups = [];
+      const groupAt = new Map();
+      items.forEach((event) => {
+        const span = eventSpan(event);
+        const key = !span.end && event.date ? event.date : "";
+        if (key && groupAt.has(key)) groups[groupAt.get(key)].events.push(event);
+        else {
+          if (key) groupAt.set(key, groups.length);
+          groups.push({ date: event.date || "", events: [event] });
+        }
+      });
+      root.innerHTML = groups.length ? groups.map((group) => {
+        if (group.events.length === 1) {
+          const event = group.events[0];
+          const span = eventSpan(event);
+          const timeMarkup = span.markup ? `<time class="timeline-range" datetime="${escapeHtml(span.start + "/" + span.end)}">${span.markup}</time>` : `<time datetime="${escapeHtml(event.date)}">${escapeHtml((event.date || "").replaceAll("-", "."))}</time>`;
+          return `<article class="timeline-entry reveal" id="${escapeHtml(timelineAnchor(event, data.timeline))}">${timeMarkup}<span class="timeline-node" aria-hidden="true"></span><div>${eventBody(event)}</div></article>`;
+        }
+        const inner = group.events.map((event) => `<section class="timeline-event" id="${escapeHtml(timelineAnchor(event, data.timeline))}">${eventBody(event)}</section>`).join("");
+        return `<article class="timeline-entry timeline-shared reveal"><time datetime="${escapeHtml(group.date)}">${escapeHtml(group.date.replaceAll("-", "."))}</time><span class="timeline-node" aria-hidden="true"></span><div class="timeline-day-events">${inner}</div></article>`;
       }).join("") : emptyState("\u65f6\u95f4\u7ebf\u6b63\u5728\u6574\u7406", order === "asc" ? "\u771f\u5b9e\u4e8b\u4ef6\u53ca\u539f\u59cb\u6765\u6e90\u6574\u7406\u5b8c\u6210\u540e\uff0c\u5c06\u6309\u65f6\u95f4\u6b63\u5e8f\u51fa\u73b0\u5728\u8fd9\u91cc\u3002" : "\u771f\u5b9e\u4e8b\u4ef6\u53ca\u539f\u59cb\u6765\u6e90\u6574\u7406\u5b8c\u6210\u540e\uff0c\u5c06\u6309\u65f6\u95f4\u5012\u5e8f\u51fa\u73b0\u5728\u8fd9\u91cc\u3002");
       observeReveals();
     };
     select.addEventListener("change", draw);
+    if (!root.dataset.shotsBound) {
+      root.dataset.shotsBound = "true";
+      const dialog = ensureShotDialog();
+      root.addEventListener("click", (event) => {
+        const button = event.target.closest(".timeline-shot");
+        if (!button || !root.contains(button)) return;
+        dialog.showShot(button);
+      });
+    }
     sortButtons.forEach((button) => {
       button.addEventListener("click", () => {
         order = button.dataset.order === "asc" ? "asc" : "desc";
@@ -104,10 +198,10 @@
 
   function renderArchive() {
     const statsRoot = document.querySelector("#archive-stats"); const directoryRoot = document.querySelector("#archive-directory"); if (!statsRoot || !directoryRoot) return;
-    const years = data.timeline.map((event) => event.date.slice(0, 4)).filter(Boolean); const yearSpan = years.length ? `${Math.min(...years.map(Number))}—${Math.max(...years.map(Number))}` : "待录入";
+    const years = data.timeline.flatMap(eventYears); const yearSpan = years.length ? `${Math.min(...years.map(Number))}—${Math.max(...years.map(Number))}` : "待录入";
     const stats = [[data.timeline.length, "EVENTS"], [yearSpan, "YEARS"]]; statsRoot.innerHTML = stats.map(([value, label], index) => `<div class="stat reveal"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(value)}</strong><p>${label}</p></div>`).join("");
     const peopleLinks = data.people.map((person) => `<li><a href="${person.id}.html"><span>${escapeHtml(person.name)}</span><small>查看个人档案 →</small></a></li>`).join("");
-    const timelineLinks = data.timeline.length ? [...data.timeline].sort((a,b) => b.date.localeCompare(a.date)).map((event) => `<li><a href="timeline.html#${escapeHtml(timelineAnchor(event, data.timeline))}"><span>${escapeHtml(event.title)}</span><small>${escapeHtml(event.date)} →</small></a></li>`).join("") : `<li class="directory-empty">真实事件整理后自动生成目录</li>`;
+    const timelineLinks = data.timeline.length ? [...data.timeline].sort((a,b) => b.date.localeCompare(a.date)).map((event) => `<li><a href="timeline.html#${escapeHtml(timelineAnchor(event, data.timeline))}"><span>${escapeHtml(event.title)}</span><small${eventSpan(event).end ? ' class="is-range"' : ""}>${escapeHtml(eventSpan(event).label || event.date)} →</small></a></li>`).join("") : `<li class="directory-empty">真实事件整理后自动生成目录</li>`;
     const timelinePostLink = Array.isArray(data.timelinePosts) && data.timelinePosts.some((post) => post && post.title && post.url) ? `<li><a href="timeline.html#timeline-posts"><span>延伸阅读</span><small>豆瓣 / 微博 →</small></a></li>` : "";
     directoryRoot.innerHTML = `<section><h3>PROFILE</h3><ol>${peopleLinks}</ol></section><section><h3>TIMELINE</h3><ol>${timelineLinks}${timelinePostLink}</ol></section>`;
   }

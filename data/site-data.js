@@ -1,7 +1,10 @@
 /*
  * 网站内容集中在这个文件中维护。
  * Timeline 正式条目必须填写 date、title、summary、source。
+ * 单日只填 date。多日汇总再加 endDate，date 是第一天，endDate 是最后一天。
  * Moment 图片条目填写 type: "image"；视频条目填写 type: "video" 和外部 link。
+ * 口袋、房间、互动、互评只放截图，不摘抄两人原文。图片放进 images/timeline/，再写到对应事件的 images。
+ * images: [{ src: "images/timeline/文件名.jpg", alt: "截图说明", source: "https://原博链接" }]
  */
 window.SITE_DATA = {
   site: {
@@ -55,8 +58,7 @@ window.SITE_DATA = {
   timeline: [
     // 示例结构（整理好真实资料后取消注释并替换）：//{ id:"event--", date:"", title:"", summary:"", source:""},
     { id:"event-2025-03", date:"2025-03-29", title:"头号新闻出道",summary:"mc提及",sources:
-      [
-        {label: "提及1",url: "https://weibo.com/8012533864/5345400670126837"},{label: "提及2",url: "https://weibo.com/8012533864/5345401667584501"}
+      [{label: "提及1",url: "https://weibo.com/8012533864/5345400670126837"},{label: "提及2",url: "https://weibo.com/8012533864/5345401667584501"}
       ] },
     { id: "event-2026-07", date: "2026-07-18", title: "龚晨美生日公演", summary: "大mc+舞台+念信", source: "https://www.bilibili.com/video/BV12iKN6yEZv/?spm_id_from=333.337.search-card.all.click&vd_source=19d238feaafcdbe60c35dbed23f125b4" },
     { id:"event-2026-09", date: "2026-09-11", title: "260911赫兹2.0", summary:"你在身边在你身边",source:"https://www.bilibili.com/video/BV1qYYU6DEwH?t=715.1"},
@@ -69,7 +71,7 @@ window.SITE_DATA = {
     { id:"event-2025-07", date:"2025-07-07", title:"覃柯蒙直播", summary:"提前一起过生日", source:"https://www.bilibili.com/video/BV1i5bp6AEFP?t=0.0"},
     { id:"event-2025-04", date:"2025-04-08", title:"口袋直播", summary:"第一次连麦", source:"https://www.bilibili.com/video/BV1d5bp6AEih?t=0.0"},
     { id:"event-2025-05", date:"2025-05-13", title:"覃柯蒙直播", summary:"外出拍照", source:"https://www.bilibili.com/video/BV1zNbp6uE15?t=0.0"},
-    { id:"event-2025-05", date:"2025-05-30", title:"口袋直播", summary:"双人连麦", source:"https://www.bilibili.com/video/BV1FNbp6gErV?t=0.0"},
+    { id:"event-250530-pocket", date:"2025-05-30", title:"口袋直播", summary:"双人连麦", source:"https://www.bilibili.com/video/BV1FNbp6gErV?t=0.0"},
     { id:"event-2025-05", date:"2025-05-10", title:"龚晨美直播", summary:"换乘直播", source:"https://www.bilibili.com/video/BV1ZtbH6eErH?t=0.0"},
     { id:"event-2026-08", date: "2026-08-28", title: "260828赫兹2.0", summary:"她打她自己",source:"https://www.bilibili.com/video/BV1dGtN62EHK?t=605.6&p=5"},
     { id:"event-2026-08", date: "2026-08-22", title: "260822赫兹2.0", summary:"谁是卧底",source:"https://www.bilibili.com/video/BV1t68264EmS?t=46.7&p=5"},
@@ -78,22 +80,36 @@ window.SITE_DATA = {
     { id:"event-2026-04", date: "2026-04-18", title: "260418赫兹", summary:"动作找茬",source:"https://www.bilibili.com/video/BV1zndsB3EPL?t=702.5&p=5"},
     { id:"event-2026-04", date: "2026-04-09", title: "260409赫兹", summary:"复婚后最甜蜜的人/最爱冷战的人",source:"https://www.bilibili.com/video/BV1PdDtBjELQ?t=541.1&p=5"},
     { id:"event-2026-04", date: "2026-04-04", title: "260404赫兹", summary:"yes or no",source:"https://www.bilibili.com/video/BV11RDTBxEho?t=419.4&p=4"},
-    { id:"event-2026-03", date: "2026-03-26", title: "260326赫兹", summary:"大mc+反向猜词",source:
+    { id:"event-2026-03", date: "2026-03-26", title: "260326赫兹", summary:"大mc+反向猜词", sources:
       [{label:"大mc",url:"https://www.bilibili.com/video/BV15kXWB4E3z?t=1017.9&p=2"},{label:"反向猜词",url:"https://www.bilibili.com/video/BV15kXWB4E3z?t=777.7&p=5"}]},
     { id:"event-2026-01", date:"2026-01-24", title: "260124赫兹", summary:"破冰期大mc盯盯", source:"https://www.bilibili.com/video/BV1sDzyBeEya?t=885.9&p=2"},
     { id:"event-2025-08", date:"2025-08-30", title:"250830赫兹", summary:"故意不小心的", source:"https://www.bilibili.com/video/BV18thzzxE4n?t=1102.3&p=4"},
     { id:"event-2026-08", date:"2026-08-02", title:"覃柯蒙直播", summary:"覃柯蒙re康楚翊re kiyo米视频", source:"https://www.bilibili.com/video/BV1uM3Z6VEZ9?t=0.0"},
     { id:"event-2026-06", date:"2026-06-19", title:"260619赫兹", summary:"Poison candy", source:"https://www.bilibili.com/video/BV1oyjB6yEn6?t=0.0"},
     { id:"event-2026-06", date:"2026-06-04", title:"260604赫兹", summary:"monster", source:"https://www.bilibili.com/video/BV1vjEP6XEoW?t=416.8&p=5"},
-    { id:"event-2025-05", date:"2025-05-30", title:"250530头号新闻", summary:"夏之回忆", source:"https://www.bilibili.com/video/BV1jL7pzpEs6?t=280.9&p=6"},
+    { id:"event-250530-news", date:"2025-05-30", title:"250530头号新闻", summary:"夏之回忆", source:"https://www.bilibili.com/video/BV1jL7pzpEs6?t=280.9&p=6"},
     { id:"event-2026-08", date:"2026-08-09", title:"龚晨美直播", summary:"我腿好痛我背你", source:"https://www.bilibili.com/video/BV1WkuG6vEsn?t=2.3"},
     { id:"event-2025-03", date:"2025-03-19", title:"官博报道", summary:"二十二期预备生 龚晨美&覃柯蒙（覃妤千）打卡报道", source:"https://weibo.com/2689280541/PjfJLjpcR"},
     { id:"event-2025-09", date:"2025-09-11", title:"25911头号新闻", summary:"找手机", source:"https://www.bilibili.com/video/BV1gAHvz9E41?t=133.8&p=4"},
     { id:"event-2026-03", date:"2026-03-08", title:"口袋直播", summary:"龚晨美、覃柯蒙 KTV直播双视角", source:"https://www.bilibili.com/video/BV1ufPXztErS?t=0.0"},
     { id: "event-2026-07", date: "2026-07-20", title: "24/7 • 整蛊之夜", summary: "互动cut", source: "https://www.bilibili.com/video/BV1J5hj6dEW5?t=0.0" },
-
-
-
+    { id:"event-2025-04", date:"2025-04-03", title:"微博小号互动", summary:"get it 溪绿色", images: 
+      [{ src: "images/timeline/wbxh02.jpg", alt: "微博互动截图"}] ,source: "https://weibo.com/7596287858/5151343031357502"},
+    { id:"event-2025-03", date:"2025-03-23", title:"微博小号互动", summary:"晚安", images: 
+      [{ src: "images/timeline/wbxh01.jpg", alt: "微博互动截图"}] ,source: "https://weibo.com/7596287858/5147179120067389"},
+    { id:"event-2026-09", date:"2026-09-24", title:"260924赫兹2.0", summary:"我猜覃柯蒙", source:"https://www.bilibili.com/video/BV1kXaP6NEUv?t=1004.1&p=5"},
+    { id:"event-2025-03", date:"2025-03-31", title:"庆祝出道", summary:"龚晨美覃柯蒙❤", images: 
+      [{ src: "images/timeline/dy01.jpg", alt: "抖音图片"}] ,source: "https://v.douyin.com/ROYYKTHIkHE/"},
+    { id:"event-2025-05", date:"2025-05-05", title:"覃柯蒙直播", summary:"练舞的两人", source:"https://www.bilibili.com/video/BV1wgEgzwErX?t=3858.7&p=3"},
+    { id:"event-2025-05", date:"2025-05-01", title:"抖音合拍", summary:"共创", source:"https://v.douyin.com/W8EoimJl1og/"},
+    { id:"event-2025-07", date:"2025-07-03", title:"覃柯蒙直播", summary:"口袋甜蜜双播", source:"https://www.bilibili.com/video/BV1XybjztEQ6?t=1810.4&p=2"},
+    { id:"event-2025-07", date:"2025-07-22", title:"龚晨美直播", summary:"生日礼物危机", source:"https://www.bilibili.com/video/BV12ZgHzJEFd?t=0.8"},
+    { id:"event-2025-08", date:"2025-08-16", title:"口袋直播", summary:"一点都不前凸后翘毫无欲望", source:"https://www.bilibili.com/video/BV17WYvz8EGv?t=22.7"},
+    { id:"event-2025-09", date:"2025-09-25", title:"250925头号新闻", summary:"只有你懂我", source:"https://www.bilibili.com/video/BV15knhzmENT?t=616.6&p=7"},
+    { id:"event-2025-10", date:"2025-10-01", title:"251001赫兹", summary:"闹别扭中", source:"https://www.bilibili.com/video/BV1nbHtzXEy3?t=600.1&p=5"},
+    { id:"event-2025-12", date:"2025-12-11", title:"251211赫兹", summary:"站一起了！", source:"https://www.bilibili.com/video/BV1nsm3BQERz?t=478.5&p=5"},
+    { id:"event-2026-01", date:"2026-01-02", title:"260102赫兹", summary:"情绪卡牌", source:"https://www.bilibili.com/video/BV1BqiFB9E2i?t=62.5&p=5"},
+    
 
 
   ],
