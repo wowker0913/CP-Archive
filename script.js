@@ -3,20 +3,21 @@
   const data = window.SITE_DATA;
   if (!data) return;
   const currentPage = document.body.dataset.page;
-  const navItems = [["home", "HOME", "index.html"], ["profile", "PROFILE", "profile.html"], ["timeline", "TIMELINE", "timeline.html"], ["archive", "ARCHIVE", "archive.html"]];
+  const navItems = [["home", "01", "HOME", "index.html"], ["profile", "02", "PROFILE", "profile.html"], ["timeline", "03", "TIMELINE", "timeline.html"], ["archive", "04", "ARCHIVE", "archive.html"]];
   const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (char) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"}[char]));
 
   function renderChrome() {
     const header = document.querySelector("[data-site-header]");
     const footer = document.querySelector("[data-site-footer]");
     if (header) {
-      header.innerHTML = `<header class="site-header"><a class="brand" href="index.html" aria-label="kiyo米·Archive 首页"><span class="brand-dot blue"></span><span>${escapeHtml(data.site.title)}</span><span class="brand-dot green"></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span><b class="menu-label">MENU</b><b class="sr-only">打开导航</b></button><nav id="site-nav" class="site-nav" aria-label="主导航">${navItems.map(([id, label, href]) => `<a href="${href}"${currentPage === id ? ' aria-current="page"' : ""}>${label}</a>`).join("")}</nav></header>`;
+      header.innerHTML = `<header class="site-header"><a class="brand" href="index.html" aria-label="kiyo米·Archive 首页"><span class="brand-dot blue"></span><span>${escapeHtml(data.site.title)}</span><span class="brand-dot green"></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span><b class="menu-label">MENU</b><b class="sr-only">打开导航</b></button><nav id="site-nav" class="site-nav" aria-label="主导航">${navItems.map(([id, index, label, href]) => `<a href="${href}"${currentPage === id ? ' aria-current="page"' : ""}><span class="nav-index">${index}</span><span class="nav-label">${label}</span></a>`).join("")}</nav></header>`;
       const toggle = header.querySelector(".menu-toggle");
       const nav = header.querySelector(".site-nav");
       const setMenuState = (open) => { toggle.setAttribute("aria-expanded", String(open)); toggle.querySelector(".sr-only").textContent = open ? "关闭导航" : "打开导航"; nav.classList.toggle("open", open); document.body.classList.toggle("menu-open", open); };
       toggle.addEventListener("click", () => setMenuState(toggle.getAttribute("aria-expanded") !== "true"));
       nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenuState(false)));
       document.addEventListener("keydown", (event) => { if (event.key === "Escape") setMenuState(false); });
+      document.addEventListener("click", (event) => { if (!nav.classList.contains("open") || toggle.contains(event.target) || nav.contains(event.target)) return; setMenuState(false); });
     }
     if (footer) {
       const email = data.site.contactEmail ? `<a href="mailto:${escapeHtml(data.site.contactEmail)}">${escapeHtml(data.site.contactEmail)}</a>` : "联系邮箱将在发布前补充";
@@ -36,12 +37,48 @@
     root.innerHTML = `<article class="person-layout ${person.color}"><div class="person-image reveal"><img src="${escapeHtml(person.image)}" alt="${escapeHtml(person.name)}" width="900" height="1200"></div><div class="person-copy reveal"><a class="back-link" href="profile.html">← 返回 Profile</a><p class="section-code">PROFILE / ${person.id.toUpperCase()}</p><h1>${escapeHtml(person.name)}</h1><p class="person-intro">${escapeHtml(person.intro)}</p><dl class="facts-list">${facts}</dl><section class="profile-links"><h2>相关链接</h2><ul>${links}</ul></section>${fanPostSection}</div></article>`;
   }
 
+  function timelineAnchor(event, events) {
+    const date = event.date || "";
+    const sharedDate = Boolean(date) && events.filter((item) => item.date === date).length > 1;
+    return sharedDate ? (event.id || date) : (date || event.id);
+  }
+
   function renderTimeline() {
-    const root = document.querySelector("#timeline-list"); const select = document.querySelector("#year-filter"); if (!root || !select) return;
-    const sorted = [...data.timeline].sort((a, b) => b.date.localeCompare(a.date)); const years = [...new Set(sorted.map((event) => event.date.slice(0, 4)))];
-    years.forEach((year) => select.insertAdjacentHTML("beforeend", `<option value="${escapeHtml(year)}">${escapeHtml(year)} 年</option>`)); select.disabled = years.length === 0;
-    const draw = (year = "all") => { const items = year === "all" ? sorted : sorted.filter((event) => event.date.startsWith(year)); root.innerHTML = items.length ? items.map((event) => { const rawSources = Array.isArray(event.sources) ? event.sources : (event.source ? [event.source] : []); const sources = rawSources.map((source) => typeof source === "string" ? { label: "查看原始来源", url: source } : source).filter((source) => source && source.url); const sourceLinks = sources.length ? `<div class="timeline-sources">${sources.map((source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || "查看原始来源")} <span aria-hidden="true">↗</span></a>`).join("")}</div>` : ""; return `<article class="timeline-entry reveal" id="${escapeHtml(event.id)}"><time datetime="${escapeHtml(event.date)}">${escapeHtml(event.date.replaceAll("-", "."))}</time><span class="timeline-node" aria-hidden="true"></span><div><h2>${escapeHtml(event.title)}</h2><p>${escapeHtml(event.summary)}</p>${sourceLinks}</div></article>`; }).join("") : emptyState("时间线正在整理", "真实事件及原始来源整理完成后，将按时间倒序出现在这里。"); observeReveals(); };
-    select.addEventListener("change", () => draw(select.value)); draw();
+    const root = document.querySelector("#timeline-list");
+    const select = document.querySelector("#year-filter");
+    const sortButtons = [...document.querySelectorAll(".timeline-sort [data-order]")];
+    if (!root || !select) return;
+    const events = [...data.timeline];
+    const years = [...new Set(events.map((event) => (event.date || "").slice(0, 4)).filter(Boolean))].sort((a, b) => b.localeCompare(a));
+    years.forEach((year) => select.insertAdjacentHTML("beforeend", `<option value="${escapeHtml(year)}">${escapeHtml(year)} \u5e74</option>`));
+    select.disabled = years.length === 0;
+    let order = "desc";
+    const draw = () => {
+      const year = select.value || "all";
+      const items = events
+        .filter((event) => year === "all" || (event.date || "").startsWith(year))
+        .sort((a, b) => order === "asc" ? (a.date || "").localeCompare(b.date || "") : (b.date || "").localeCompare(a.date || ""));
+      root.innerHTML = items.length ? items.map((event) => {
+        const rawSources = Array.isArray(event.sources) ? event.sources : (event.source ? [event.source] : []);
+        const sources = rawSources.map((source) => typeof source === "string" ? { label: "\u67e5\u770b\u539f\u59cb\u6765\u6e90", url: source } : source).filter((source) => source && source.url);
+        const sourceLinks = sources.length ? `<div class="timeline-sources">${sources.map((source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || "\u67e5\u770b\u539f\u59cb\u6765\u6e90")} <span aria-hidden="true">\u2197</span></a>`).join("")}</div>` : "";
+        return `<article class="timeline-entry reveal" id="${escapeHtml(timelineAnchor(event, data.timeline))}"><time datetime="${escapeHtml(event.date)}">${escapeHtml(event.date.replaceAll("-", "."))}</time><span class="timeline-node" aria-hidden="true"></span><div><h2>${escapeHtml(event.title)}</h2><p>${escapeHtml(event.summary)}</p>${sourceLinks}</div></article>`;
+      }).join("") : emptyState("\u65f6\u95f4\u7ebf\u6b63\u5728\u6574\u7406", order === "asc" ? "\u771f\u5b9e\u4e8b\u4ef6\u53ca\u539f\u59cb\u6765\u6e90\u6574\u7406\u5b8c\u6210\u540e\uff0c\u5c06\u6309\u65f6\u95f4\u6b63\u5e8f\u51fa\u73b0\u5728\u8fd9\u91cc\u3002" : "\u771f\u5b9e\u4e8b\u4ef6\u53ca\u539f\u59cb\u6765\u6e90\u6574\u7406\u5b8c\u6210\u540e\uff0c\u5c06\u6309\u65f6\u95f4\u5012\u5e8f\u51fa\u73b0\u5728\u8fd9\u91cc\u3002");
+      observeReveals();
+    };
+    select.addEventListener("change", draw);
+    sortButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        order = button.dataset.order === "asc" ? "asc" : "desc";
+        sortButtons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle("is-active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
+        draw();
+      });
+    });
+    draw();
   }
 
   function renderTimelinePosts() {
@@ -70,7 +107,7 @@
     const years = data.timeline.map((event) => event.date.slice(0, 4)).filter(Boolean); const yearSpan = years.length ? `${Math.min(...years.map(Number))}—${Math.max(...years.map(Number))}` : "待录入";
     const stats = [[data.timeline.length, "EVENTS"], [yearSpan, "YEARS"]]; statsRoot.innerHTML = stats.map(([value, label], index) => `<div class="stat reveal"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(value)}</strong><p>${label}</p></div>`).join("");
     const peopleLinks = data.people.map((person) => `<li><a href="${person.id}.html"><span>${escapeHtml(person.name)}</span><small>查看个人档案 →</small></a></li>`).join("");
-    const timelineLinks = data.timeline.length ? [...data.timeline].sort((a,b) => b.date.localeCompare(a.date)).map((event) => `<li><a href="timeline.html#${escapeHtml(event.id)}"><span>${escapeHtml(event.title)}</span><small>${escapeHtml(event.date)} →</small></a></li>`).join("") : `<li class="directory-empty">真实事件整理后自动生成目录</li>`;
+    const timelineLinks = data.timeline.length ? [...data.timeline].sort((a,b) => b.date.localeCompare(a.date)).map((event) => `<li><a href="timeline.html#${escapeHtml(timelineAnchor(event, data.timeline))}"><span>${escapeHtml(event.title)}</span><small>${escapeHtml(event.date)} →</small></a></li>`).join("") : `<li class="directory-empty">真实事件整理后自动生成目录</li>`;
     const timelinePostLink = Array.isArray(data.timelinePosts) && data.timelinePosts.some((post) => post && post.title && post.url) ? `<li><a href="timeline.html#timeline-posts"><span>延伸阅读</span><small>豆瓣 / 微博 →</small></a></li>` : "";
     directoryRoot.innerHTML = `<section><h3>PROFILE</h3><ol>${peopleLinks}</ol></section><section><h3>TIMELINE</h3><ol>${timelineLinks}${timelinePostLink}</ol></section>`;
   }
