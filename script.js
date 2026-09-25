@@ -2,6 +2,12 @@
   "use strict";
   const data = window.SITE_DATA;
   if (!data) return;
+  if (Array.isArray(data.timelineLinks) || Array.isArray(data.timelineImages)) {
+    data.timeline = [
+      ...(Array.isArray(data.timelineLinks) ? data.timelineLinks : []),
+      ...(Array.isArray(data.timelineImages) ? data.timelineImages : [])
+    ];
+  }
   document.documentElement.classList.add("js");
   const currentPage = document.body.dataset.page;
   const navItems = [["home", "01", "HOME", "index.html"], ["profile", "02", "PROFILE", "profile.html"], ["timeline", "03", "TIMELINE", "timeline.html"], ["archive", "04", "ARCHIVE", "archive.html"]];
@@ -201,9 +207,9 @@
     const years = data.timeline.flatMap(eventYears); const yearSpan = years.length ? `${Math.min(...years.map(Number))}—${Math.max(...years.map(Number))}` : "待录入";
     const stats = [[data.timeline.length, "EVENTS"], [yearSpan, "YEARS"]]; statsRoot.innerHTML = stats.map(([value, label], index) => `<div class="stat reveal"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(value)}</strong><p>${label}</p></div>`).join("");
     const peopleLinks = data.people.map((person) => `<li><a href="${person.id}.html"><span>${escapeHtml(person.name)}</span><small>查看个人档案 →</small></a></li>`).join("");
-    const timelineLinks = data.timeline.length ? [...data.timeline].sort((a,b) => b.date.localeCompare(a.date)).map((event) => `<li><a href="timeline.html#${escapeHtml(timelineAnchor(event, data.timeline))}"><span>${escapeHtml(event.title)}</span><small${eventSpan(event).end ? ' class="is-range"' : ""}>${escapeHtml(eventSpan(event).label || event.date)} →</small></a></li>`).join("") : `<li class="directory-empty">真实事件整理后自动生成目录</li>`;
+    const sortedTimeline = [...data.timeline].sort((a, b) => (b.date || "").localeCompare(a.date || "")); const recentTimeline = sortedTimeline.slice(0, 3); const timelineLinks = recentTimeline.length ? recentTimeline.map((event) => `<li><a href="timeline.html#${escapeHtml(timelineAnchor(event, data.timeline))}"><span>${escapeHtml(event.title)}</span><small${eventSpan(event).end ? ' class="is-range"' : ""}>${escapeHtml(eventSpan(event).label || event.date)} →</small></a></li>`).join("") : `<li class="directory-empty">真实事件整理后自动生成目录</li>`; const timelineMore = sortedTimeline.length > recentTimeline.length ? `<li class="directory-more"><a href="timeline.html"><span>更多</span><small>查看全部 →</small></a></li>` : "";
     const timelinePostLink = Array.isArray(data.timelinePosts) && data.timelinePosts.some((post) => post && post.title && post.url) ? `<li><a href="timeline.html#timeline-posts"><span>延伸阅读</span><small>豆瓣 / 微博 →</small></a></li>` : "";
-    directoryRoot.innerHTML = `<section><h3>PROFILE</h3><ol>${peopleLinks}</ol></section><section><h3>TIMELINE</h3><ol>${timelineLinks}${timelinePostLink}</ol></section>`;
+    directoryRoot.innerHTML = `<section><h3>PROFILE</h3><ol>${peopleLinks}${timelinePostLink}</ol></section><section><h3>TIMELINE</h3><ol>${timelineLinks}${timelineMore}</ol></section>`;
   }
 
   function observeReveals() {

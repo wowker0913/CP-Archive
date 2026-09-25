@@ -7,10 +7,11 @@
 | 想修改什么 | 文件与位置 |
 | --- | --- |
 | 网站名称、页脚纠错邮箱 | `data/site-data.js` 的 `site` |
-| 首页姓名、引言、按钮、双人照片 | `index.html` 的 `.hero-copy`、`.hero-portrait`；照片文件在 `images/` |
+| 首页标题、引言、按钮、合影 | `index.html` 的 `.hero-copy`、`.hero-stage`；合影文件是 `images/couple.jpg` |
 | Profile 总览标题、两张入口卡片 | `profile.html` 的 `.page-intro`、`.profile-choices` |
 | 两个个人页的简介、资料、相关链接、安利帖 | `data/site-data.js` 的 `people`，分别找 `id: "qkm"` 和 `id: "gcm"` |
-| Timeline 正式事件、多个原始来源 | `data/site-data.js` 的 `timeline` |
+| Timeline 有链接的事件 | `data/site-data.js` 的 `timelineLinks` |
+| Timeline 截图事件 | `data/site-data.js` 的 `timelineImages` |
 | Timeline 豆瓣／微博帖子 | `data/site-data.js` 的 `timelinePosts` |
 | Moments 图片、GIF、视频 | 目前已从导航和 Archive 隐藏。页面仍是 `moments.html`，数据仍在 `data/site-data.js` 的 `moments` |
 | Archive 统计与目录 | 从上述数据自动生成，通常不手动修改 |
@@ -30,11 +31,15 @@
 
 打开 `index.html`：
 
-- 首页两个大名字在 `<h1 id="home-title">` 中；引言在 `<blockquote>` 中；下方一句简介在 `.home-note` 中。
-- “进入档案”按钮是 `.primary-link`，目前 `href="archive.html"`，即点击后进入 Archive。修改按钮文字或目标地址就在这一行。
-- 首页照片分别是 `.portrait-blue` 和 `.portrait-green` 里的 `<img>`，目前指向 `images/qkm.jpg`、`images/gcm.jpg`。
+- 左边小字是 `.archive-name`：「kiyo米 · Archive」。它只是杂志式站名，不要再做成巨大黑色标题，也不要换成花体或手写体。
+- 最大的一行在 `<h1 id="home-title">`：「覃柯蒙 × 龚晨美」。覃柯蒙用 `.name-blue`（`--color-qkm`），龚晨美用 `.name-green`（`--color-gcm`），乘号用 `.pair-cross`。字号随左侧宽度缩放，保持一行。
+- 名字下面是一条约 120px 的蓝绿细线 `.hero-line`。窄屏上这条线会略短，不要再加缠绕线。
+- 引言在 `<blockquote>` 中，目前是「你在身边，在你身边。」。首页不再放「一处关于共同经历与被珍藏瞬间的档案。」。
+- “进入档案”按钮仍是原来的 `.primary-link`，目前 `href="archive.html"`。不要改成普通下划线小字，也不要改成跳到 Profile。修改按钮文字或目标地址就在这一行。
+- 右侧合影在 `.couple-frame` 的 `<img>`，文件是 `images/couple.jpg`。相纸边是拍立得浅纸边，上下左右留白一样宽，纸色略浅于页面底。外圈和照片内侧各有一条细线，从左上的龚晨美溪绿（`--color-gcm`）过渡到右下的覃柯蒙清透蓝（`--color-qkm`）。窄屏上这条边会略收，避免把照片挤没。不要裁切或替换这张图的文件本身；只调显示位置时改 `.couple-frame img` 的 `object-position`。
+- 左上角小标签「龚晨美」是 `.corner-gcm`（溪绿），右下角「覃柯蒙」是 `.corner-qkm`（清透蓝）。不要再加 `.weave` 蓝绿缠绕线。单人照片 `images/qkm.jpg`、`images/gcm.jpg` 不再放在首页，仍用于 Profile。
 
-注意：数据文件里的 `site.tagline` **目前没有被首页调用**；要换首页那句引言，请直接改 `index.html`。如果只是换照片并希望首页、Profile 总览和个人页一起换，保持原文件名，替换 `images/qkm.jpg` 或 `images/gcm.jpg` 即可。如果使用新文件名，须同步改 `index.html`、`profile.html` 与 `data/site-data.js` 的对应图片路径。
+注意：数据文件里的 `site.tagline` **目前没有被首页调用**；要换首页那句引言，请直接改 `index.html`。如果只是换个人页或总览照片，保持原文件名，替换 `images/qkm.jpg` 或 `images/gcm.jpg` 即可。合影单独更换时，替换 `images/couple.jpg`，或同步改 `index.html` 里的路径。
 
 ## PROFILE：总览入口怎么改
 
@@ -46,7 +51,7 @@
 
 个人页照片是另一套框，不要和总览卡片做成一样。`qkm.html`、`gcm.html` 的大图在 `.person-image`：宽留白相纸边，只有左上角和右下角两处人物色角标，照片边缘另有一圈同色细线。旁边的姓名、简介和链接在 `.person-copy`，与照片隔开，整组放在右侧空白的中间；文字本身仍左对齐。手机上照片在上、文字在下，文字块居中，并与照片留出一段距离。改简介和资料仍在数据文件，不用改这些样式。
 
-龚晨美个人页照片目前往右收了一点，只改显示位置，不要裁切、压缩或替换 `images/gcm.jpg`。位置在 `style.css` 的 `.person-layout.green .person-image img`，现在是 `object-position: 80% center`。数字越大，画面越靠右，左侧外套越少；再往右不要超过大约 86%，否则会切到手指。覃柯蒙个人页没有单独偏移。首页和总览卡片的竖向裁切是另一处：覃柯蒙 `.portrait-blue img` 为 `center 24%`，龚晨美 `.portrait-green img` 为 `center 20%`，调个人页时不要一起改。
+龚晨美个人页照片目前往右收了一点，只改显示位置，不要裁切、压缩或替换 `images/gcm.jpg`。位置在 `style.css` 的 `.person-layout.green .person-image img`，现在是 `object-position: 80% center`。数字越大，画面越靠右，左侧外套越少；再往右不要超过大约 86%，否则会切到手指。覃柯蒙个人页没有单独偏移。首页已改成一张合影，不再使用单人裁切；总览卡片的照片裁切在 `.choice-image img`，调个人页时不要一起改。
 
 ## Profile
 
@@ -79,7 +84,7 @@
 
 ## Timeline
 
-每条正式事件必须有日期、标题、简述和原始来源。页面默认按日期从新到旧排列。左侧用年份下拉框筛选，右侧可以切换倒序或正序，两者在同一行。页面顶部的“一起走过的时光”居中，TIMELINE 在标题下方；标题和引导句在 `timeline.html` 的 `.timeline-intro` 修改。Profile 的“关于她们”和 Archive 的“档案总览”也是同样排法，英文分别在各自标题下方。
+有链接的事件写在 `timelineLinks`，带截图的事件写在 `timelineImages`，不要再混写进同一个数组。两段各自按日期从早到晚排列；页面会合并后默认从新到旧显示。有链接的事件要有日期、标题、简述和原始来源。带截图的事件要有日期、标题、简述和 `images`，原博链接可以写在该条的 `source`，没有单独链接时可以不填。左侧用年份下拉框筛选，右侧可以切换倒序或正序，两者在同一行。页面顶部的“一起走过的时光”居中，TIMELINE 在标题下方；标题和引导句在 `timeline.html` 的 `.timeline-intro` 修改。Profile 的“关于她们”和 Archive 的“档案总览”也是同样排法，英文分别在各自标题下方。
 
 ```js
 {
@@ -124,7 +129,7 @@
 }
 ```
 
-同一天里有好几件事时，每件事仍然单独写一条，`date` 填同一天。页面会把这一天合并成一条时间线：日期和圆点只出现一次，几件事紧挨在这条里面，不再各占一条。它们按你在文件里写下的顺序排列，切换倒序或正序时，这一天内部的顺序不变。
+同一天里有好几件事时，每件事仍然单独写一条，`date` 填同一天。页面会把这一天合并成一条时间线：日期和圆点只出现一次，几件事紧挨在这条里面，不再各占一条。同一天里，有链接的事件排在图片事件前面；每一段内部按文件中的先后排列。切换倒序或正序时，这一天内部的顺序不变。
 
 这几条的 `id` 必须各不相同，否则档案目录会跳到同一条。日期不同的事件可以继续共用编号，现有编号先不要改。短编号一旦用在同一天的几条上，就不要再改。
 
@@ -135,7 +140,7 @@
 
 ### 互动截图
 
-口袋、房间、互动、互评只放截图，不摘抄龚晨美和覃柯蒙的聊天原文。图片放进 `images/timeline/`，再写进对应事件的 `images`。时间线上先显示小图；点击后直接弹出原图，图片本身不加底色卡片。关闭按钮叠在图片右上角，点击旁边的暗色空白也会关闭。原图比屏幕高时，可以在弹窗里上下滑动看完整内容，不会被裁切。原博链接写在这张图的 `source` 里，会出现在原图下面。带图片的事件和下一条之间仍留出与其他事件相近的空隙。没有截图的事件仍只显示文字和原来的来源链接。
+口袋、房间、互动、互评只放截图，不摘抄龚晨美和覃柯蒙的聊天原文。这些条目写进 `timelineImages`。口袋图片放进 `images/timeline/kd/`，文件名用 `kd` 开头；微博和抖音图片放进 `images/timeline/wb-dy/`，文件名用 `wb` 或 `dy` 开头。文件夹名不能包含斜杠，所以没有做成 `wb/dy`。再写进对应事件的 `images`。缩略图统一成同样的小尺寸，画面可以被裁切；长图主要露出上方，横图主要露出左侧，点击后看完整原图。时间线上先显示小图；点击后直接弹出原图，图片本身不加底色卡片。关闭按钮叠在图片右上角，点击旁边的暗色空白也会关闭。原图比屏幕高时，可以在弹窗里上下滑动看完整内容，不会被裁切。原博链接写在这张图的 `source` 里，会出现在原图下面。带图片的事件和下一条之间仍留出与其他事件相近的空隙。没有截图的事件仍只显示文字和原来的来源链接。
 
 ```js
 {
@@ -145,7 +150,7 @@
   summary: "一句已确认的简述",
   source: "https://原始来源链接",
   images: [
-    { src: "images/timeline/room-01.jpg", alt: "房间互动截图", source: "https://原博链接" }
+    { src: "images/timeline/kd/room-01.jpg", alt: "房间互动截图", source: "https://原博链接" }
   ]
 }
 ```
@@ -154,7 +159,7 @@
 
 ### Timeline 的延伸阅读
 
-豆瓣或微博的粉丝帖子放在 `timelinePosts` 中，不要混进 `timeline` 的正式事件。它们会在 Timeline 页面的独立“延伸阅读”栏显示，不受事件年份筛选影响；没有帖子时该栏自动隐藏。每条填写标题和完整网址，平台、发帖日期可选：
+豆瓣或微博的粉丝帖子放在 `timelinePosts` 中，不要混进 `timelineLinks` 或 `timelineImages`。它们会在 Timeline 页面的独立“延伸阅读”栏显示，不受事件年份筛选影响；没有帖子时该栏自动隐藏。每条填写标题和完整网址，平台、发帖日期可选：
 
 ```js
 timelinePosts: [
@@ -163,7 +168,7 @@ timelinePosts: [
 ],
 ```
 
-`platform`、`date` 可省略。有 `date` 的帖子按发帖日期从新到旧排列；没有日期的帖子排在后面。这里只记录帖子本身，事件的原始来源仍填在对应 `timeline` 条目里。个人介绍类安利帖继续放在相应 Profile 的 `fanPosts`。清空成 `timelinePosts: []` 后，“延伸阅读”整栏会隐藏。
+`platform`、`date` 可省略。有 `date` 的帖子按发帖日期从新到旧排列；没有日期的帖子排在后面。这里只记录帖子本身，事件的原始来源仍填在对应 `timelineLinks` 或 `timelineImages` 条目里。个人介绍类安利帖继续放在相应 Profile 的 `fanPosts`。清空成 `timelinePosts: []` 后，“延伸阅读”整栏会隐藏。
 
 ## Moments
 
@@ -203,7 +208,7 @@ Moments 目前先隐藏，不出现在顶部导航和 Archive 目录里。`momen
 
 ## Archive
 
-`archive.html` 的 `.page-intro` 可以修改居中的“档案总览”标题及说明，ARCHIVE 在标题下方。目前只统计 EVENTS 与 YEARS，目录只有 PROFILE 和 TIMELINE，由 `script.js` 根据 `people`、`timeline` 自动生成；有 Timeline 延伸阅读帖时还会多一个目录入口。Moments 已暂时隐藏，不计入统计，也不出现在目录里。新增资料后刷新页面即可看到变化，不用手动改统计数或目录 HTML。
+`archive.html` 的 `.page-intro` 可以修改居中的“档案总览”标题及说明，ARCHIVE 在标题下方。目前只统计 EVENTS 与 YEARS，目录只有 PROFILE 和 TIMELINE，由 `script.js` 根据 `people`、`timelineLinks` 和 `timelineImages` 自动生成。TIMELINE 目录只显示最近 3 条，下面一行左边是「更多」，右边是「查看全部」，与上面的条目标题和日期对齐，点击进入完整时间线。有延伸阅读帖时，这个入口放在 PROFILE 下面，不放进 TIMELINE。Moments 已暂时隐藏，不计入统计，也不出现在目录里。新增资料后刷新页面即可看到变化，不用手动改统计数或目录 HTML。
 
 ## 全站视觉变量
 
@@ -213,7 +218,7 @@ Moments 目前先隐藏，不出现在顶部导航和 Archive 目录里。`momen
 - `--color-gcm` / `--color-gcm-deep` / `--color-gcm-soft`：龚晨美的溪绿色、深色标题、浅色装饰。
 - `--color-paper` / `--color-paper-deep`：米灰背景与次级表面。
 - `--font-display` / `--font-body`：标题衬线体与中文正文系统字体。
-- `--text-title` / `--text-hero`：使用 `clamp()` 自动适配不同屏幕的内页标题与首页大名字。
+- `--text-title` / `--text-hero`：内页大标题，以及首页两人名字的备用字号。首页站名「kiyo米 · Archive」是小字，不使用这两个字号；两人名字实际优先按左侧宽度缩放。
 - `--space-1` 至 `--space-7`：统一页面留白。
 
 中文字体优先使用访客设备上的系统字体，不依赖 Google Fonts；这样在大陆网络环境下也能稳定加载。只改 Profile 总览照片边框可搜索 `.choice-image`；个人页大图要改 `.person-image` 和 `.person-copy`。龚晨美个人页再往右或往左，只改 `.person-layout.green .person-image img` 里的 `80%`，不要动原图。都不要改全站变量。手机布局的规则主要在文件末尾的 `@media (max-width: 900px)` 和 `@media (max-width: 700px)` 中；改颜色、字号、间距后同时检查手机与电脑。
