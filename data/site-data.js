@@ -54,7 +54,7 @@ window.SITE_DATA = {
       fanPosts: [
         { label: "豆瓣｜安利帖1", url: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F496146918%3F_spm_id%3DMjc0NjQ3MDg2&_i=8995541482dc228" },
         { label: "豆瓣｜安利帖2", url: "https://www.douban.com/group/topic/500007944/?_spm_id=Mjg3ODM2NjIw&_i=02252369MFMgZ3" },
-        { label: "微博｜图文整理标题", url: "https://帖子完整链接" }
+        //{ label: "微博｜图文整理标题", url: "https://帖子完整链接" }
         ]
     }
   ],
