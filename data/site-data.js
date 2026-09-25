@@ -28,8 +28,8 @@ window.SITE_DATA = {
       links: [  
         { label: "微博大号", url: "https://weibo.com/u/8015074819" },
         { label: "微博小号", url: "https://weibo.com/u/5915317653" },
-        { label: "小红书", url: " https://xhslink.cn/o/7Wmlo8OYqMh"},
-        { label: "抖音", url: " https://v.douyin.com/eaj9cMY1NH8/ "}
+        { label: "小红书", url: "https://xhslink.cn/o/7Wmlo8OYqMh"},
+        { label: "抖音", url: "https://v.douyin.com/eaj9cMY1NH8/"}
         
       ],
       fanPosts: [ 
@@ -50,7 +50,7 @@ window.SITE_DATA = {
       links: [
         { label: "微博大号", url: "https://weibo.com/u/8011162323" },
         { label: "微博小号", url: "https://weibo.com/u/7596287858" },
-        { label: "抖音", url: "https://v.douyin.com/DXHeN_O5HAE/ "}],
+        { label: "抖音", url: "https://v.douyin.com/DXHeN_O5HAE/"}],
       fanPosts: [
         { label: "豆瓣｜安利帖1", url: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F496146918%3F_spm_id%3DMjc0NjQ3MDg2&_i=8995541482dc228" },
         { label: "豆瓣｜安利帖2", url: "https://www.douban.com/group/topic/500007944/?_spm_id=Mjg3ODM2NjIw&_i=02252369MFMgZ3" },
@@ -134,7 +134,7 @@ window.SITE_DATA = {
       source: "https://www.bilibili.com/video/BV1XybjztEQ6?t=1810.4&p=2"
     },
     {
-      id: "event-2025-07",
+      id: "event-250705-live",
       date: "2025-07-05",
       title: "龚晨美直播",
       summary: "希望你以后被很多很多幸运包围",
@@ -148,7 +148,7 @@ window.SITE_DATA = {
       source: "https://www.bilibili.com/video/BV1i5bp6AEFP?t=0.0"
     },
     {
-      id: "event-2025-07",
+      id: "event-250711-live",
       date: "2025-07-11",
       title: "覃柯蒙生日直播",
       summary: "kiyo米生日直播cut",
@@ -267,7 +267,7 @@ window.SITE_DATA = {
       date: "2026-05-17",
       title: "热恋专属抖音",
       summary: "共创",
-      source: " https://v.douyin.com/o_YcMW5qndk/"
+      source: "https://v.douyin.com/o_YcMW5qndk/"
     },
     {
       id: "event-2026-05",
@@ -462,7 +462,7 @@ window.SITE_DATA = {
       title: "口袋房间提及",
       summary: "没带手机的美美",
       images: [
-        { src: "images/timeline/kd/kd250503.jpg", alt: "口袋图片" }
+        { src: "images/timeline/kd/kd250507.jpg", alt: "口袋图片" }
       ]
     },
     {
