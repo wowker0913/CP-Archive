@@ -372,6 +372,16 @@ window.SITE_DATA = {
       title: "260924赫兹2.0",
       summary: "我猜覃柯蒙",
       source: "https://www.bilibili.com/video/BV1kXaP6NEUv?t=1004.1&p=5"
+    },
+    {
+      id: "event-2026-09",
+      date: "2026-09-26",
+      title: "260926赫兹2.0",
+      summary: "大mc+今日之星人鱼",
+       sources: [
+        { label: "妻妻混合双串 yuki想读米米的心", url: "https://weibo.com/8012533864/RjVOaFKPh" },
+        { label: "人鱼", url: "https://weibo.com/8012533864/RjVFs6VX5" }
+      ]
     }
   ],
 
