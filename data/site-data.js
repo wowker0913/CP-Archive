@@ -100,7 +100,7 @@ window.SITE_DATA = {
     },
     {
       id: "event-2025-05",
-      date: "2025-05-10",
+      date: "2025-05-09",
       title: "龚晨美直播",
       summary: "换乘直播",
       source: "https://www.bilibili.com/video/BV1ZtbH6eErH?t=0.0"
@@ -125,6 +125,13 @@ window.SITE_DATA = {
       title: "250530头号新闻",
       summary: "夏之回忆",
       source: "https://www.bilibili.com/video/BV1jL7pzpEs6?t=280.9&p=6"
+    },
+    {
+      id: "event-250629-news",
+      date: "2025-06-29",
+      title: "龚晨美直播",
+      summary: "甜蜜欢乐日常",
+      source: "https://weibo.com/8012533864/RkOIdiWcl"
     },
     {
       id: "event-2025-07",
@@ -340,11 +347,25 @@ window.SITE_DATA = {
       source: "https://www.bilibili.com/video/BV1dGtN62EHK?t=605.6&p=5"
     },
     {
+      id: "event-2026-08",
+      date: "2026-08-31",
+      title: "官抖双人",
+      summary: "❤❤",
+      source: "https://v.douyin.com/cLef0CjGQ1E/"
+    },
+    {
       id: "event-2026-09",
       date: "2026-09-11",
       title: "260911赫兹2.0",
       summary: "你在身边在你身边",
       source: "https://www.bilibili.com/video/BV1qYYU6DEwH?t=715.1"
+    },
+    {
+      id: "event-2026-09",
+      date: "2026-09-12",
+      title: "双人Q&A小采访霸气来袭！",
+      summary: "再一次回到初遇时期？|互换身体一天？",
+      source: "https://weibo.com/5252777110/RhN17tGtQ"
     },
     {
       id: "event-2026-09",
@@ -354,6 +375,16 @@ window.SITE_DATA = {
       sources: [
         { label: "舞台", url: "https://www.bilibili.com/video/BV1JTYB6ZE2F/?share_source=copy_web&vd_source=641ec61c34a5a985cbfcf46d6d63708b" },
         { label: "念信", url: "https://www.bilibili.com/video/BV1zuYB64Epz/?share_source=copy_web&vd_source=641ec61c34a5a985cbfcf46d6d63708b" }
+      ]
+    },
+    {
+      id: "event-2026-09",
+      date: "2026-09-14",
+      title: "龚晨美直播",
+      summary: "re《当我背对世界》",
+      sources: [
+        { label: "re舞台", url: "https://www.bilibili.com/video/BV1TwYk6mEj4?t=0.3" },
+        { label: "观后感", url: "https://www.bilibili.com/video/BV1p3Yk6rEsR?t=0.2" }
       ]
     },
     {
@@ -381,8 +412,29 @@ window.SITE_DATA = {
        sources: [
         { label: "妻妻混合双串 yuki想读米米的心", url: "https://weibo.com/8012533864/RjVOaFKPh" },
         { label: "人鱼", url: "https://weibo.com/8012533864/RjVFs6VX5" }
-      ]
-    }
+       ]
+      },
+      {
+      id: "event-2026-10",
+      date: "2026-10-02",
+      title: "双人Q&A小采访第二弹",
+      summary: "默契评分|养小宠物|形容对方",
+       source: "https://weibo.com/5252777110/RkQ5s2Ige"
+      },
+      {
+      id: "event-2026-10",
+      date: "2026-10-03",
+      title: "云握",
+      summary: "一通电话召唤一只萌萌呆狗🥰 ",
+       source: "https://weibo.com/5252777110/RkZqY7pw9"
+      },
+      {
+      id: "event-261005-live",
+      date: "2026-10-05",
+      title: "261005赫兹2.0",
+      summary: "动过真感情的举手",
+      source: "https://www.bilibili.com/video/BV1APHs6PESx?t=342.2&p=6"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
@@ -495,6 +547,15 @@ window.SITE_DATA = {
     },
     {
       id: "event-2025-05",
+      date: "2025-05-21",
+      title: "口袋房间提及",
+      summary: "被米米拉来吃食堂",
+      images: [
+        { src: "images/timeline/kd/kd250521.jpg", alt: "口袋图片" }
+      ]
+    },
+    {
+      id: "event-2025-05",
       date: "2025-05-30",
       title: "口袋房间提及",
       summary: "吃饭了",
@@ -521,6 +582,15 @@ window.SITE_DATA = {
       ]
     },
     {
+      id: "event-2025-06",
+      date: "2025-06-29",
+      title: "口袋房间提及",
+      summary: "陪美美去剪头",
+      images: [
+        { src: "images/timeline/kd/kd250629.jpg", alt: "口袋图片" }
+      ]
+    },
+    {
       id: "event-250705-pocket",
       date: "2025-07-05",
       title: "口袋房间提及",
@@ -543,10 +613,21 @@ window.SITE_DATA = {
       id: "event-2025-07",
       date: "2025-07-18",
       title: "口袋房间提及",
-      summary: "carry王者的两人|一起逛街",
+      summary: "carry王者的两人|一起逛街|见米米妈妈",
       images: [
         { src: "images/timeline/kd/kd250718.jpg", alt: "口袋图片" },
-        { src: "images/timeline/kd/kd250718(2).jpg", alt: "口袋图片" }
+        { src: "images/timeline/kd/kd250718(2).jpg", alt: "口袋图片" },
+        { src: "images/timeline/kd/kd250718(3).jpg", alt: "口袋图片" }
+      ]
+    },
+    {
+      id: "event-2025-07",
+      date: "2025-07-23",
+      title: "口袋房间提及",
+      summary: "美美扑床|出去吃饭",
+      images: [
+        { src: "images/timeline/kd/kd250723.jpg", alt: "口袋图片" },
+        { src: "images/timeline/kd/kd250723(2).jpg", alt: "口袋图片" }
       ]
     },
     {
@@ -597,6 +678,17 @@ window.SITE_DATA = {
       ]
     },
     {
+      id: "event-2026-05",
+      date: "2026-05-12",
+      title: "队友口袋房间提及",
+      summary: "剧本杀求婚",
+      images: [
+        { src: "images/timeline/kd/kd260512.jpg", alt: "口袋图片" },
+        { src: "images/timeline/kd/kd260512(2).jpg", alt: "口袋图片" },
+        { src: "images/timeline/kd/kd260512(3).jpg", alt: "口袋图片" }
+      ]
+    },
+    {
       id: "event-2026-06",
       date: "2026-06-26",
       title: "口袋房间互动",
@@ -604,7 +696,16 @@ window.SITE_DATA = {
       images: [
         { src: "images/timeline/kd/kd260626.jpg", alt: "口袋图片" }
       ]
-    }
+    },
+    {
+      id: "event-261005-pocket",
+      date: "2026-10-05",
+      title: "队友口袋房间提及",
+      summary: "合照",
+      images: [
+        { src: "images/timeline/kd/kd261005.jpg", alt: "口袋图片" }
+      ]
+    },
   ],
   timelinePosts: [ {
     platform: "豆瓣",
@@ -635,6 +736,12 @@ window.SITE_DATA = {
     title: "龚晨美生日公演——覃柯蒙信文字版",
     date: "2026-07-19",
     url: "https://www.douban.com/group/topic/494410080/?_spm_id=MjU2ODg1MDQ0&_i=02332399MFMgZ3"
+  },
+  {
+    platform: "微博",
+    title: "三封信完整文字版",
+    date: "2026-09-19",
+    url: "https://weibo.com/7996365206/RiQTxD4oP"
   },
  ],
   moments: [

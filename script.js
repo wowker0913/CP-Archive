@@ -21,10 +21,24 @@
       const toggle = header.querySelector(".menu-toggle");
       const nav = header.querySelector(".site-nav");
       const setMenuState = (open) => { toggle.setAttribute("aria-expanded", String(open)); toggle.querySelector(".sr-only").textContent = open ? "关闭导航" : "打开导航"; nav.classList.toggle("open", open); document.body.classList.toggle("menu-open", open); };
-      toggle.addEventListener("click", () => setMenuState(toggle.getAttribute("aria-expanded") !== "true"));
+      toggle.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") !== "true";
+        setMenuState(open);
+      });
       nav.querySelectorAll("a").forEach((link) => link.addEventListener("click", () => setMenuState(false)));
-      document.addEventListener("keydown", (event) => { if (event.key === "Escape") setMenuState(false); });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && nav.classList.contains("open")) {
+          setMenuState(false);
+          toggle.focus();
+        }
+      });
       document.addEventListener("click", (event) => { if (!nav.classList.contains("open") || toggle.contains(event.target) || nav.contains(event.target)) return; setMenuState(false); });
+      window.matchMedia("(min-width: 701px)").addEventListener("change", (event) => {
+        if (!event.matches) return;
+        const focusWasInMenu = nav.contains(document.activeElement) || document.activeElement === toggle;
+        setMenuState(false);
+        if (focusWasInMenu) header.querySelector(".brand")?.focus();
+      });
     }
     if (footer) {
       const email = data.site.contactEmail ? `<a href="mailto:${escapeHtml(data.site.contactEmail)}">${escapeHtml(data.site.contactEmail)}</a>` : "联系邮箱将在发布前补充";

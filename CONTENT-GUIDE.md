@@ -31,25 +31,25 @@
 
 打开 `index.html`：
 
-- 左边小字是 `.archive-name`：「kiyo米 · Archive」。它只是杂志式站名，不要再做成巨大黑色标题，也不要换成花体或手写体。
-- 最大的一行在 `<h1 id="home-title">`：「覃柯蒙 × 龚晨美」。覃柯蒙用 `.name-blue`（`--color-qkm`），龚晨美用 `.name-green`（`--color-gcm`），乘号用 `.pair-cross`。字号随左侧宽度缩放，保持一行。
-- 名字下面是一条约 120px 的蓝绿细线 `.hero-line`。窄屏上这条线会略短，不要再加缠绕线。
+- 左侧小字是 `.archive-name`：「kiyo米 · Archive」。它是杂志式站名。
+- 最大的一行在 `<h1 id="home-title">`：「覃柯蒙 × 龚晨美」。覃柯蒙用 `.name-blue`（深海蓝），龚晨美用 `.name-green`（深蕨绿），乘号用 `.pair-cross`；字号随文字栏宽度缩放，在手机和电脑上都保持一行。
+- 名字下面是一条约 120px 的蓝绿细线 `.hero-line`，引言和“进入档案”按钮依次排在下方。
 - 引言在 `<blockquote>` 中，目前是「你在身边，在你身边。」。首页不再放「一处关于共同经历与被珍藏瞬间的档案。」。
-- “进入档案”按钮仍是原来的 `.primary-link`，目前 `href="archive.html"`。不要改成普通下划线小字，也不要改成跳到 Profile。修改按钮文字或目标地址就在这一行。
-- 右侧合影在 `.couple-frame` 的 `<img>`，文件是 `images/couple.jpg`。相纸边是拍立得浅纸边，上下左右留白一样宽，纸色略浅于页面底。外圈和照片内侧各有一条细线，从左上的龚晨美溪绿（`--color-gcm`）过渡到右下的覃柯蒙清透蓝（`--color-qkm`）。窄屏上这条边会略收，避免把照片挤没。不要裁切或替换这张图的文件本身；只调显示位置时改 `.couple-frame img` 的 `object-position`。
-- 左上角小标签「龚晨美」是 `.corner-gcm`（溪绿），右下角「覃柯蒙」是 `.corner-qkm`（清透蓝）。不要再加 `.weave` 蓝绿缠绕线。单人照片 `images/qkm.jpg`、`images/gcm.jpg` 不再放在首页，仍用于 Profile。
+- “进入档案”是带蓝绿底边的 `.primary-link` 按钮，目标仍是 `archive.html`；文字和目标地址在 `index.html` 修改。
+- 右侧合影在 `.couple-frame`，文件是 `images/couple.jpg`。浅纸相框四边留白等宽，外圈和照片内侧各有一条从绿到蓝的细线；手机上移到文字下方。不要裁切或替换图片文件。
+- 合影边缘的「龚晨美」和「覃柯蒙」分别用 `.corner-gcm`、`.corner-qkm` 标记。单人照片 `images/qkm.jpg`、`images/gcm.jpg` 仍用于 Profile。
 
 注意：数据文件里的 `site.tagline` **目前没有被首页调用**；要换首页那句引言，请直接改 `index.html`。如果只是换个人页或总览照片，保持原文件名，替换 `images/qkm.jpg` 或 `images/gcm.jpg` 即可。合影单独更换时，替换 `images/couple.jpg`，或同步改 `index.html` 里的路径。
 
 ## PROFILE：总览入口怎么改
 
-打开 `profile.html`，`.page-intro` 里是居中的“关于她们”，PROFILE 在标题下方，下面是说明文字；`.profile-choices` 里有两张入口卡片，含姓名、照片路径、“查看个人档案”和 `href="qkm.html"`／`href="gcm.html"` 跳转。改数据文件中个人姓名并不会自动修改首页和总览卡片，记得同步检查。
+打开 `profile.html`，`.profile-intro` 里是居中的“关于她们”，PROFILE 在标题下方。`.profile-choices` 是上一版的两张并排入口卡片：桌面上每张卡片的照片在左、姓名与“查看个人档案”在右；窄屏时卡片内改为照片在上、文字在下，手机上两张卡片依次排列。链接仍为 `href="qkm.html"`／`href="gcm.html"`。改数据文件中个人姓名并不会自动修改首页和总览卡片，记得同步检查。
 
 若只想调这两张照片的浅相纸边框，在 `style.css` 找 `.profile-choice`、`.choice-image`、`.choice-copy`；更换资料或照片不需要碰 CSS。
 
 悬停或点击总览卡片时，照片不要放大。反馈只出现在“查看个人档案”这几个字上：字色变成对应人物色，并出现下划线。整张卡片仍然可以点进个人页。
 
-个人页照片是另一套框，不要和总览卡片做成一样。`qkm.html`、`gcm.html` 的大图在 `.person-image`：宽留白相纸边，只有左上角和右下角两处人物色角标，照片边缘另有一圈同色细线。旁边的姓名、简介和链接在 `.person-copy`，与照片隔开，整组放在右侧空白的中间；文字本身仍左对齐。手机上照片在上、文字在下，文字块居中，并与照片留出一段距离。改简介和资料仍在数据文件，不用改这些样式。
+个人页大图在 `.person-image`，有细纸边和人物色角标。覃柯蒙页照片在左、资料在右；龚晨美页资料在左、照片在右。文字本身左对齐。手机上两页都把照片放在上方，资料放在下方。改简介和资料仍在数据文件。
 
 龚晨美个人页照片目前往右收了一点，只改显示位置，不要裁切、压缩或替换 `images/gcm.jpg`。位置在 `style.css` 的 `.person-layout.green .person-image img`，现在是 `object-position: 80% center`。数字越大，画面越靠右，左侧外套越少；再往右不要超过大约 86%，否则会切到手指。覃柯蒙个人页没有单独偏移。首页已改成一张合影，不再使用单人裁切；总览卡片的照片裁切在 `.choice-image img`，调个人页时不要一起改。
 
@@ -84,7 +84,7 @@
 
 ## Timeline
 
-有链接的事件写在 `timelineLinks`，带截图的事件写在 `timelineImages`，不要再混写进同一个数组。两段各自按日期从早到晚排列；页面会合并后默认从新到旧显示。有链接的事件要有日期、标题、简述和原始来源。带截图的事件要有日期、标题、简述和 `images`，原博链接可以写在该条的 `source`，没有单独链接时可以不填。左侧用年份下拉框筛选，右侧可以切换倒序或正序，两者在同一行。页面顶部的“一起走过的时光”居中，TIMELINE 在标题下方；标题和引导句在 `timeline.html` 的 `.timeline-intro` 修改。Profile 的“关于她们”和 Archive 的“档案总览”也是同样排法，英文分别在各自标题下方。
+有链接的事件写在 `timelineLinks`，带截图的事件写在 `timelineImages`，不要再混写进同一个数组。两段各自按日期从早到晚排列；页面会合并后默认从新到旧显示。有链接的事件要有日期、标题、简述和原始来源。带截图的事件要有日期、标题、简述和 `images`，原博链接可以写在该条的 `source`，没有单独链接时可以不填。左侧用年份下拉框筛选，右侧可以切换倒序或正序，两者在同一行。页面顶部的“一起走过的时光”左对齐，桌面上 TIMELINE 位于同一行右侧，手机上移到标题下方；标题和引导句在 `timeline.html` 的 `.timeline-intro` 修改。Archive 的“档案总览”也是同样排法；Profile 总览已恢复为居中标题。
 
 ```js
 {
@@ -174,7 +174,7 @@ timelinePosts: [
 
 Moments 目前先隐藏，不出现在顶部导航和 Archive 目录里。`moments.html`、样式和 `data/site-data.js` 里的 `moments` 数组都还在，直接打开 `moments.html` 仍能看到页面；现在数组里只有注释，没有正式内容。
 
-若以后要重新显示：在 `script.js` 的 `navItems` 里，于 TIMELINE 和 ARCHIVE 之间加回 `["moments", "MOMENTS", "moments.html"]`；在 `renderArchive()` 里恢复 MOMENTS、VIDEOS 统计，以及目录中的 MOMENTS 分组。统计区样式在 `style.css` 的 `.archive-stats`，目录列数在 `.directory-groups`，现在都按两栏排，恢复四项统计和三组目录时要一起改回。
+若以后要重新显示：在 `script.js` 的 `navItems` 里，于 TIMELINE 和 ARCHIVE 之间加回 `["moments", "MOMENTS", "moments.html"]`；在 `renderArchive()` 里恢复 MOMENTS、VIDEOS 统计，以及目录中的 MOMENTS 分组。统计区样式在 `style.css` 的 `.archive-stats`，目录列数在 `.directory-groups`；目前桌面为两栏、手机为单栏，恢复更多项目时要分别检查断点。
 
 页面大标题与引导句在 `moments.html`，卡片内容在 `moments` 数组。每条 `id` 都要唯一；卡片按日期从新到旧排列。
 
@@ -208,20 +208,20 @@ Moments 目前先隐藏，不出现在顶部导航和 Archive 目录里。`momen
 
 ## Archive
 
-`archive.html` 的 `.page-intro` 可以修改居中的“档案总览”标题及说明，ARCHIVE 在标题下方。目前只统计 EVENTS 与 YEARS，目录只有 PROFILE 和 TIMELINE，由 `script.js` 根据 `people`、`timelineLinks` 和 `timelineImages` 自动生成。TIMELINE 目录只显示最近 3 条，下面一行左边是「更多」，右边是「查看全部」，与上面的条目标题和日期对齐，点击进入完整时间线。有延伸阅读帖时，这个入口放在 PROFILE 下面，不放进 TIMELINE。Moments 已暂时隐藏，不计入统计，也不出现在目录里。新增资料后刷新页面即可看到变化，不用手动改统计数或目录 HTML。
+`archive.html` 的 `.page-intro` 可以修改左对齐的“档案总览”标题及说明，桌面上 ARCHIVE 位于同一行右侧。目前只统计 EVENTS 与 YEARS，目录只有 PROFILE 和 TIMELINE，由 `script.js` 根据 `people`、`timelineLinks` 和 `timelineImages` 自动生成。TIMELINE 目录只显示最近 3 条，下面一行左边是「更多」，右边是「查看全部」，与上面的条目标题和日期对齐，点击进入完整时间线。有延伸阅读帖时，这个入口放在 PROFILE 下面，不放进 TIMELINE。Moments 已暂时隐藏，不计入统计，也不出现在目录里。新增资料后刷新页面即可看到变化，不用手动改统计数或目录 HTML。
 
 ## 全站视觉变量
 
 统一视觉变量在 `style.css` 文件开头的 `:root` 中，并附有中文用途注释。常用调整点：
 
-- `--color-qkm` / `--color-qkm-deep` / `--color-qkm-soft`：覃柯蒙的清透青蓝、深色标题、浅色装饰。
-- `--color-gcm` / `--color-gcm-deep` / `--color-gcm-soft`：龚晨美的溪绿色、深色标题、浅色装饰。
-- `--color-paper` / `--color-paper-deep`：米灰背景与次级表面。
+- `--color-qkm` / `--color-qkm-deep` / `--color-qkm-soft`：覃柯蒙的海蓝、深色文字、浅色装饰。
+- `--color-gcm` / `--color-gcm-deep` / `--color-gcm-soft`：龚晨美的蕨绿、深色文字、浅色装饰。
+- `--color-paper` / `--color-paper-deep`：暖纸背景与次级表面。
 - `--font-display` / `--font-body`：标题衬线体与中文正文系统字体。
-- `--text-title` / `--text-hero`：内页大标题，以及首页两人名字的备用字号。首页站名「kiyo米 · Archive」是小字，不使用这两个字号；两人名字实际优先按左侧宽度缩放。
+- `--text-title` / `--text-hero`：内页大标题和首页双人姓名的字号。首页站名「kiyo米 · Archive」是小字，不使用这两个字号。
 - `--space-1` 至 `--space-7`：统一页面留白。
 
-中文字体优先使用访客设备上的系统字体，不依赖 Google Fonts；这样在大陆网络环境下也能稳定加载。只改 Profile 总览照片边框可搜索 `.choice-image`；个人页大图要改 `.person-image` 和 `.person-copy`。龚晨美个人页再往右或往左，只改 `.person-layout.green .person-image img` 里的 `80%`，不要动原图。都不要改全站变量。手机布局的规则主要在文件末尾的 `@media (max-width: 900px)` 和 `@media (max-width: 700px)` 中；改颜色、字号、间距后同时检查手机与电脑。
+中文字体优先使用访客设备上的系统字体，不依赖 Google Fonts；这样在大陆网络环境下也能稳定加载。只改 Profile 总览照片边框可搜索 `.choice-image`；个人页大图要改 `.person-image` 和 `.person-copy`。龚晨美个人页再往右或往左，只改 `.person-layout.green .person-image img` 里的 `80%`，不要动原图。手机布局的规则主要在文件末尾的 `@media (max-width: 900px)` 和 `@media (max-width: 700px)` 中；改颜色、字号、间距后同时检查手机与电脑。
 
 ## 发布前检查
 
