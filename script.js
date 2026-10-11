@@ -10,7 +10,20 @@
   }
   document.documentElement.classList.add("js");
   const currentPage = document.body.dataset.page;
-  const navItems = [["home", "01", "HOME", "index.html"], ["profile", "02", "PROFILE", "profile.html"], ["timeline", "03", "TIMELINE", "timeline.html"], ["archive", "04", "ARCHIVE", "archive.html"]];
+  if (currentPage === "timeline") {
+    const redirectOldReading = () => { if (location.hash === "#timeline-posts") location.replace("fanworks.html#reading"); };
+    if (location.hash === "#timeline-posts") { redirectOldReading(); return; }
+    window.addEventListener("hashchange", redirectOldReading);
+  }
+  const navItems = [
+    ["home", "01", "HOME", "index.html"],
+    ["profile", "02", "PROFILE", "profile.html"],
+    ["timeline", "03", "TIMELINE", "timeline.html"],
+    ["fanworks", "04", "FANWORKS", "fanworks.html"],
+    // 暂时隐藏 Moments；恢复时取消此行及下方 Archive 目录入口的注释。
+    // ["moments", "05", "MOMENTS", "moments.html"],
+    ["archive", "05", "ARCHIVE", "archive.html"]
+  ];
   const escapeHtml = (value = "") => String(value).replace(/[&<>'"]/g, (char) => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;"}[char]));
 
   function renderChrome() {
@@ -33,7 +46,7 @@
         }
       });
       document.addEventListener("click", (event) => { if (!nav.classList.contains("open") || toggle.contains(event.target) || nav.contains(event.target)) return; setMenuState(false); });
-      window.matchMedia("(min-width: 701px)").addEventListener("change", (event) => {
+      window.matchMedia("(min-width: 901px)").addEventListener("change", (event) => {
         if (!event.matches) return;
         const focusWasInMenu = nav.contains(document.activeElement) || document.activeElement === toggle;
         setMenuState(false);
@@ -195,25 +208,56 @@
     draw();
   }
 
-  function renderTimelinePosts() {
-    const section = document.querySelector("#timeline-posts");
-    const list = document.querySelector("#timeline-posts-list");
-    if (!section || !list) return;
-    const posts = Array.isArray(data.timelinePosts) ? data.timelinePosts.filter((post) => post && post.title && post.url) : [];
-    if (!posts.length) return;
-    posts.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
-    list.innerHTML = posts.map((post) => `<li><a href="${escapeHtml(post.url)}" target="_blank" rel="noopener noreferrer"><span class="timeline-post-meta">${post.platform ? `<span>${escapeHtml(post.platform)}</span>` : ""}${post.date ? `<time datetime="${escapeHtml(post.date)}">${escapeHtml(post.date.replaceAll("-", "."))}</time>` : ""}</span><span class="timeline-post-title">${escapeHtml(post.title)}</span><span class="timeline-post-arrow" aria-hidden="true">↗</span></a></li>`).join("");
-    section.hidden = false;
-  }
-
-  function renderMoments() {
-    const root = document.querySelector("#moments-grid"); if (!root) return;
-    const items = [...data.moments].sort((a, b) => b.date.localeCompare(a.date));
-    if (!items.length) { root.innerHTML = emptyState("瞬间正在挑选", "照片、GIF 与短片完成筛选后，将以轻量缩略图陈列在这里。"); return; }
-    root.innerHTML = items.map((item, index) => { const action = item.type === "video" ? `href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer"` : `href="${escapeHtml(item.media)}" data-full="${escapeHtml(item.media)}" data-caption="${escapeHtml(item.text)}"`; return `<article class="moment-card reveal" id="${escapeHtml(item.id)}"><a class="moment-media" ${action}><img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.text)}" loading="lazy" width="720" height="900"><span>${item.type === "video" ? "观看短片 ↗" : "查看完整图片"}</span></a><div class="moment-meta"><time datetime="${escapeHtml(item.date)}">${escapeHtml(item.date.replaceAll("-", "."))}</time><p>${escapeHtml(item.text)}</p><small>${String(index + 1).padStart(2, "0")}</small></div></article>`; }).join("");
-    const dialog = document.querySelector("#media-dialog"); const dialogMedia = dialog.querySelector(".dialog-media"); const dialogCaption = dialog.querySelector(".dialog-caption");
-    root.querySelectorAll("[data-full]").forEach((link) => link.addEventListener("click", (event) => { event.preventDefault(); dialogMedia.innerHTML = `<img src="${escapeHtml(link.dataset.full)}" alt="${escapeHtml(link.dataset.caption)}">`; dialogCaption.textContent = link.dataset.caption; dialog.showModal(); }));
-    dialog.querySelector(".dialog-close").addEventListener("click", () => dialog.close()); dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+  function renderFanWorks() {
+    const root = document.querySelector("#fanworks-list");
+    if (!root) return;
+    const filtersRoot = document.querySelector("#reading");
+    const typeRoot = document.querySelector("#fanworks-types");
+    const countRoot = document.querySelector("#fanworks-count");
+    const emptyRoot = document.querySelector("#fanworks-empty");
+    const works = Array.isArray(data.fanWorks) ? data.fanWorks.filter((work) => work && work.id && work.title && /^https?:\/\//i.test(work.url || "")) : [];
+    const types = ["同人文", "同人图", "剪辑", "延伸阅读", "未分类"];
+    const items = works.map((work) => ({ ...work, category: types.includes(work.type) ? work.type : "未分类" })).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    let selectedType = location.hash === "#reading" ? "延伸阅读" : "__all__";
+    typeRoot.innerHTML = [["__all__", "全部"], ...types.map((type) => [type, type])].map(([value, label]) => `<button type="button" data-value="${escapeHtml(value)}" aria-controls="fanworks-list" aria-pressed="false">${escapeHtml(label)}</button>`).join("");
+    const draw = () => {
+      const visibleItems = items.filter((item) => selectedType === "__all__" || item.category === selectedType);
+      typeRoot.querySelectorAll("button[data-value]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.value === selectedType)));
+      countRoot.textContent = `显示 ${visibleItems.length} 条内容`;
+      root.hidden = !visibleItems.length;
+      emptyRoot.hidden = !!visibleItems.length;
+      if (visibleItems.length) {
+        root.innerHTML = `<ol>${visibleItems.map((item) => {
+          const details = [item.category, item.creator ? `作者：${item.creator}` : "", item.platform, item.date].filter(Boolean);
+          return `<li${item.id ? ` id="${escapeHtml(item.id)}"` : ""}><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer"><span class="fanwork-copy"><span class="fanwork-title">${escapeHtml(item.title)}</span><small>${details.map(escapeHtml).join(" · ")}</small></span><span class="fanwork-arrow" aria-hidden="true">↗</span></a></li>`;
+        }).join("")}</ol>`;
+      } else {
+        root.replaceChildren();
+        emptyRoot.innerHTML = selectedType === "__all__" ? emptyState("内容正在整理", "粉丝创作与延伸阅读整理好后，会从这里前往原作。") : emptyState("这个分类暂时没有内容", "可以选择其他分类，或查看全部内容。");
+      }
+    };
+    typeRoot.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-value]");
+      if (!button) return;
+      selectedType = button.dataset.value;
+      if (selectedType === "延伸阅读") history.replaceState(history.state, "", `${location.pathname}${location.search}#reading`);
+      else if (location.hash === "#reading") history.replaceState(history.state, "", `${location.pathname}${location.search}`);
+      draw();
+      button.focus({ preventScroll: true });
+    });
+    const revealReading = () => requestAnimationFrame(() => {
+      if (location.hash === "#reading") filtersRoot.scrollIntoView({ behavior: "instant" });
+    });
+    window.addEventListener("hashchange", () => {
+      selectedType = location.hash === "#reading" ? "延伸阅读" : "__all__";
+      draw();
+      if (location.hash === "#reading") revealReading();
+    });
+    draw();
+    if (location.hash === "#reading") {
+      if (document.readyState === "complete") revealReading();
+      else window.addEventListener("load", revealReading, { once: true });
+    }
   }
 
   function renderArchive() {
@@ -222,8 +266,10 @@
     const stats = [[data.timeline.length, "EVENTS"], [yearSpan, "YEARS"]]; statsRoot.innerHTML = stats.map(([value, label], index) => `<div class="stat reveal"><span>${String(index + 1).padStart(2, "0")}</span><strong>${escapeHtml(value)}</strong><p>${label}</p></div>`).join("");
     const peopleLinks = data.people.map((person) => `<li><a href="${person.id}.html"><span>${escapeHtml(person.name)}</span><small>查看个人档案 →</small></a></li>`).join("");
     const sortedTimeline = [...data.timeline].sort((a, b) => (b.date || "").localeCompare(a.date || "")); const recentTimeline = sortedTimeline.slice(0, 3); const timelineLinks = recentTimeline.length ? recentTimeline.map((event) => `<li><a href="timeline.html#${escapeHtml(timelineAnchor(event, data.timeline))}"><span>${escapeHtml(event.title)}</span><small${eventSpan(event).end ? ' class="is-range"' : ""}>${escapeHtml(eventSpan(event).label || event.date)} →</small></a></li>`).join("") : `<li class="directory-empty">真实事件整理后自动生成目录</li>`; const timelineMore = sortedTimeline.length > recentTimeline.length ? `<li class="directory-more"><a href="timeline.html"><span>更多</span><small>查看全部 →</small></a></li>` : "";
-    const timelinePostLink = Array.isArray(data.timelinePosts) && data.timelinePosts.some((post) => post && post.title && post.url) ? `<li><a href="timeline.html#timeline-posts"><span>延伸阅读</span><small>豆瓣 / 微博 →</small></a></li>` : "";
-    directoryRoot.innerHTML = `<section><h3>PROFILE</h3><ol>${peopleLinks}${timelinePostLink}</ol></section><section><h3>TIMELINE</h3><ol>${timelineLinks}${timelineMore}</ol></section>`;
+    const readingLink = Array.isArray(data.fanWorks) && data.fanWorks.some((work) => work && work.id && work.type === "延伸阅读" && work.title && /^https?:\/\//i.test(work.url || "")) ? `<li><a href="fanworks.html#reading"><span>延伸阅读</span><small>豆瓣 / 微博 →</small></a></li>` : "";
+    directoryRoot.innerHTML = `<section><h3>PROFILE</h3><ol>${peopleLinks}</ol></section><section><h3>TIMELINE</h3><ol>${timelineLinks}${timelineMore}</ol></section><section><h3>FANWORKS</h3><ol><li><a href="fanworks.html"><span>同人二创</span><small>查看栏目 →</small></a></li>${readingLink}</ol></section><!-- 暂时隐藏 Moments
+    <section><h3>MOMENTS</h3><ol><li><a href="moments.html"><span>被留下的瞬间</span><small>查看栏目 →</small></a></li></ol></section>
+    -->`;
   }
 
   function observeReveals() {
@@ -231,5 +277,5 @@
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add("is-visible"); observer.unobserve(entry.target); } }), { threshold: 0.12 }); items.forEach((item) => observer.observe(item));
   }
 
-  renderChrome(); renderPerson(); renderTimeline(); renderTimelinePosts(); renderMoments(); renderArchive(); observeReveals();
+  renderChrome(); renderPerson(); renderTimeline(); renderFanWorks(); renderArchive(); observeReveals();
 })();

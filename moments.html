@@ -9,15 +9,32 @@
 </head>
 <body data-page="moments">
   <div data-site-header></div>
-  <main class="page-shell">
-    <header class="page-intro reveal"><p class="section-code">MOMENTS</p><h1>被留下的瞬间</h1><p>照片、动画与短片，在这里安静地停留。</p></header>
-    <section id="moments-grid" class="moments-grid" aria-live="polite"></section>
+  <main class="album-shell">
+    <header class="album-intro"><p class="section-code">MOMENTS</p><h1>被留下的瞬间</h1><span id="album-preview-label" class="album-preview-label" hidden>预览</span></header>
+    <section id="album-shelf" class="album-shelf" aria-label="按年份选择相册">
+      <div id="moments-grid" class="year-carousel" aria-label="年份相册"></div>
+      <div id="album-shelf-controls" class="album-shelf-controls" hidden>
+        <button type="button" id="album-year-prev" class="album-control" aria-label="切换到较新的年份">←<span>上一年</span></button>
+        <div class="album-shelf-caption"><p id="album-year-status" aria-live="polite"></p><p class="album-hint">点击封面，打开相册</p></div>
+        <button type="button" id="album-year-next" class="album-control" aria-label="切换到较早的年份"><span>下一年</span>→</button>
+      </div>
+    </section>
+    <section id="album-reader" class="album-reader" aria-labelledby="album-reader-title" hidden>
+      <header class="album-reader-heading"><button type="button" id="album-back" class="album-back">← 返回相册</button><h2 id="album-reader-title"></h2></header>
+      <div class="album-desk"><div id="album-book" class="album-book" aria-label="相册内页"></div></div>
+      <div class="album-reader-controls">
+        <button type="button" id="album-page-prev" class="album-control" aria-label="翻到上一页">←<span>上一页</span></button>
+        <div class="album-page-caption"><p id="album-page-status" aria-live="polite"></p><p class="album-hint">拖动页角或左右翻页 · 点击照片查看原图</p></div>
+        <button type="button" id="album-page-next" class="album-control" aria-label="翻到下一页"><span>下一页</span>→</button>
+      </div>
+    </section>
+    <noscript><p class="album-no-script">请启用 JavaScript 浏览年份相册。</p></noscript>
   </main>
   <dialog id="media-dialog" class="media-dialog" aria-label="查看完整图片">
     <button class="dialog-close" type="button" aria-label="关闭">×</button>
     <div class="dialog-media"></div><p class="dialog-caption"></p>
   </dialog>
   <div data-site-footer></div>
-  <script src="data/site-data.js"></script><script src="script.js"></script>
+  <script src="data/site-data.js"></script><script src="script.js"></script><script src="data/moments-preview.js"></script><script src="assets/vendor/page-flip/page-flip-2.0.7.browser.js"></script><script src="moments.js"></script>
 </body>
 </html>

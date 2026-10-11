@@ -12,10 +12,10 @@
 | 两个个人页的简介、资料、相关链接、安利帖 | `data/site-data.js` 的 `people`，分别找 `id: "qkm"` 和 `id: "gcm"` |
 | Timeline 有链接的事件 | `data/site-data.js` 的 `timelineLinks` |
 | Timeline 截图事件 | `data/site-data.js` 的 `timelineImages` |
-| Timeline 豆瓣／微博帖子 | `data/site-data.js` 的 `timelinePosts` |
-| Moments 图片、GIF、视频 | 目前已从导航和 Archive 隐藏。页面仍是 `moments.html`，数据仍在 `data/site-data.js` 的 `moments` |
+| 同人二创与延伸阅读 | `data/site-data.js` 的 `fanWorks`，用 `type` 区分类别，页面为 `fanworks.html` |
+| Moments 图片、GIF、视频 | `moments.html` 和 `data/site-data.js` 的 `moments`；当前尚无正式素材 |
 | Archive 统计与目录 | 从上述数据自动生成，通常不手动修改 |
-| 内页大标题与引导句 | `profile.html`、`timeline.html`、`moments.html`、`archive.html` 各自的 `.page-intro` |
+| 内页大标题与引导句 | `profile.html`、`timeline.html`、`fanworks.html`、`moments.html`、`archive.html` 各自的 `.page-intro` |
 | 全站配色、字号、相框 | `style.css`；先看开头的 `:root` |
 | 顶部导航、页脚模板 | `script.js` 的 `navItems`、`renderChrome()`；仅改资料通常不用碰 |
 
@@ -157,26 +157,47 @@
 
 同一条可以放多张图，每张都能单独点开。`alt` 是图片说明，`source` 可以不填；不填就不会出现空链接。不要把聊天原文写进 `summary`。
 
-### Timeline 的延伸阅读
+## 同人二创（FANWORKS）
 
-豆瓣或微博的粉丝帖子放在 `timelinePosts` 中，不要混进 `timelineLinks` 或 `timelineImages`。它们会在 Timeline 页面的独立“延伸阅读”栏显示，不受事件年份筛选影响；没有帖子时该栏自动隐藏。每条填写标题和完整网址，平台、发帖日期可选：
+**所有分类都在 `data/site-data.js` 的同一个 `fanWorks` 数组中编辑。** 原来 `timelinePosts` 的 6 条帖子已完整移入，并标记为 `type: "延伸阅读"`；无需再维护另一份数组。个人页安利帖仍在 `people` 中相应人物的 `fanPosts`。
+
+### 怎样新增或修改
+
+1. 在 `data/site-data.js` 搜索 `fanWorks:`，找到已有的内容列表。
+2. 修改内容时，直接改对应条目的字段；新增时，在数组的最后一个条目后添加一个对象，用英文逗号隔开。
+3. 填写唯一 `id`、标题 `title` 和完整原作链接 `url`。`id` 不要与其他内容重复，也不要因为修改标题而改动已有 `id`。
+4. 用 `type` 选择分类：`同人文`、`同人图`、`剪辑`、`延伸阅读`、`未分类`。不填写或填写其他文字，会显示为未分类。无需填写“全部”，它是网页上的筛选按钮。
+5. `creator`（作者）、`platform`（平台）、`date`（YYYY-MM-DD）可省略；不知道日期时不要编造。保存文件并刷新本地预览。
+
+下面是**新增条目格式说明**，不要直接录入为正式资料，也不要替换整个现有数组：
 
 ```js
-timelinePosts: [
-  { platform: "豆瓣", title: "两人共同经历的整理帖", date: "2026-09-01", url: "https://帖子完整链接" },
-  { platform: "微博", title: "互动片段安利帖", url: "https://另一篇帖子的完整链接" }
-],
+{
+  id: "fanwork-01",                 // 必填：新条目的唯一编号
+  title: "作品标题",                 // 必填：页面显示的标题
+  url: "https://原作完整链接",        // 必填：http:// 或 https:// 开头
+  type: "同人文",                   // 分类：五种固定分类之一
+  creator: "作者",                   // 可选
+  platform: "微博",                  // 可选，仅作条目信息，不作为筛选
+  date: "2026-10-05"                // 可选，填写真实日期
+},
 ```
 
-`platform`、`date` 可省略。有 `date` 的帖子按发帖日期从新到旧排列；没有日期的帖子排在后面。这里只记录帖子本身，事件的原始来源仍填在对应 `timelineLinks` 或 `timelineImages` 条目里。个人介绍类安利帖继续放在相应 Profile 的 `fanPosts`。清空成 `timelinePosts: []` 后，“延伸阅读”整栏会隐藏。
+豆瓣或微博整理帖同样添加到 `fanWorks`，将 `type` 填为 `"延伸阅读"` 即可。事件的原始来源仍填在对应 `timelineLinks` 或 `timelineImages` 条目里。
+
+列表按日期从新到旧排列，没有日期的排在最后；所有外链在新标签页打开。分类顺序固定为：全部、同人文、同人图、剪辑、延伸阅读、未分类。只有所选分类没有内容时才显示空状态。`fanworks.html#reading` 会选中延伸阅读并定位到分类列表；切换到其他分类会清除该锚点。旧的 `timeline.html#timeline-posts` 入口继续跳转到这里，Timeline 不再重复展示帖子。Archive 的延伸阅读入口也从 `fanWorks` 自动生成。
 
 ## Moments
 
-Moments 目前先隐藏，不出现在顶部导航和 Archive 目录里。`moments.html`、样式和 `data/site-data.js` 里的 `moments` 数组都还在，直接打开 `moments.html` 仍能看到页面；现在数组里只有注释，没有正式内容。
+Moments 目前暂时隐藏：`script.js` 中的顶部导航和 Archive 目录入口已注释，页面、组件、资料和图片均保留，仍可通过原地址直接预览。恢复时取消两处入口注释，并将 Archive 导航编号改回 06。栏目用于两人的照片、GIF 与原始短片；粉丝创作链接放同人二创页。`data/site-data.js` 的 `moments` 数组目前为空，页面会显示正式空状态。Archive 统计仍只显示 EVENTS 与 YEARS，不因空栏目增加零值。
 
-若以后要重新显示：在 `script.js` 的 `navItems` 里，于 TIMELINE 和 ARCHIVE 之间加回 `["moments", "MOMENTS", "moments.html"]`；在 `renderArchive()` 里恢复 MOMENTS、VIDEOS 统计，以及目录中的 MOMENTS 分组。统计区样式在 `style.css` 的 `.archive-stats`，目录列数在 `.directory-groups`；目前桌面为两栏、手机为单栏，恢复更多项目时要分别检查断点。
+Moments 使用独立的相册版式：顶部为小标题，主体按年份展示纯色相册封面，封面只显示年份。点击封面以短淡入打开内页，768px 及以上显示双页，手机显示单页；照片保留原比例，居中留白。可拖动四个页角，纸页随手势折叠，松手后完成翻页或回弹；翻页按钮、左右方向键和横滑也可浏览。点击图片查看原图，关闭后焦点返回照片；视频仍在新标签页打开。单张照片相册、系统设置减少动态效果或翻页组件不可用时，使用静态内页直接切换，浏览功能不受影响。
 
-页面大标题与引导句在 `moments.html`，卡片内容在 `moments` 数组。每条 `id` 都要唯一；卡片按日期从新到旧排列。
+纸页效果使用本地固定版本 StPageFlip 2.0.7（`assets/vendor/page-flip/page-flip-2.0.7.browser.js`，44,058 字节），无需 CDN 或运行时依赖。MIT 许可证保存在同目录的 `LICENSE`，分发组件时须一起保留。按钮翻页时长设为 650ms，手势松手动画由组件按剩余距离决定；翻动期间不会接收重复翻页。组件内页使用数据属性标识照片，隐藏页和临时副本不参与键盘焦点；窗口尺寸变化时保留阅读位置。
+
+正式素材继续放在 `moments` 数组，每条 `id` 唯一。完整 `date`（YYYY-MM-DD）优先确定年份和顺序，同一年内从新到旧；只知道年份时填写 `year`（如 2025），可用 `order`（从 1 开始）指定无日期素材的顺序。不要为了分组编造日期。`text` 可省略，没有文案时只显示页码。没有日期也没有有效年份的条目不会进入相册。
+
+本地预览入口为 `moments.html?preview=1`，读取独立的 `data/moments-preview.js`，不会写入正式 `moments`。当前 8 张 `images/moments/2501.jpg` 至 `2508.jpg` 暂作 2025 年预览，按文件编号排列，不将编号解释成月份。正式页面 `moments.html` 仍显示空状态。之后确认正式收录时，再把核实后的素材写入 `moments`。
 
 图片或 GIF：
 
@@ -204,11 +225,11 @@ Moments 目前先隐藏，不出现在顶部导航和 Archive 目录里。`momen
 }
 ```
 
-先把素材放进项目的 `images/moments/` 文件夹（目前尚无此文件夹，添加素材时创建），再填写实际相对路径。缩略图建议使用 WebP、4:5 比例、宽度 720px 左右。`thumbnail` 是卡片先加载的小图；`media` 是原图或 GIF，只会在访客打开弹窗时加载。GIF 的 `media` 指向 `.gif`，缩略图仍尽量使用轻量静态图。视频也要本地缩略图，但 `link` 应指向外部原视频平台，点击后在新标签页打开；不要把视频放进 `media`。
+先把素材放进项目的 `images/moments/` 文件夹，再填写实际相对路径。缩略图建议使用 WebP、宽度 720px 左右，保留照片构图；相册内页完整展示图片，不强制裁成固定比例。`thumbnail` 是内页先加载的小图；`media` 是原图或 GIF，只会在访客打开弹窗时加载。GIF 的 `media` 指向 `.gif`，缩略图仍尽量使用轻量静态图。视频也要本地缩略图，但 `link` 应指向外部原视频平台，点击后在新标签页打开；不要把视频放进 `media`。
 
 ## Archive
 
-`archive.html` 的 `.page-intro` 可以修改左对齐的“档案总览”标题及说明，桌面上 ARCHIVE 位于同一行右侧。目前只统计 EVENTS 与 YEARS，目录只有 PROFILE 和 TIMELINE，由 `script.js` 根据 `people`、`timelineLinks` 和 `timelineImages` 自动生成。TIMELINE 目录只显示最近 3 条，下面一行左边是「更多」，右边是「查看全部」，与上面的条目标题和日期对齐，点击进入完整时间线。有延伸阅读帖时，这个入口放在 PROFILE 下面，不放进 TIMELINE。Moments 已暂时隐藏，不计入统计，也不出现在目录里。新增资料后刷新页面即可看到变化，不用手动改统计数或目录 HTML。
+`archive.html` 的 `.page-intro` 可以修改左对齐的“档案总览”标题及说明，桌面上 ARCHIVE 位于同一行右侧。目前只统计 EVENTS 与 YEARS；目录包含 PROFILE、TIMELINE、FANWORKS；MOMENTS 入口暂时注释隐藏。TIMELINE 目录只显示最近 3 条，下面一行左边是「更多」，右边是「查看全部」，与上面的条目标题和日期对齐。延伸阅读入口在 FANWORKS 分组中，指向 `fanworks.html#reading`。新增资料后刷新页面即可看到变化，不用手动改统计数或目录 HTML。
 
 ## 全站视觉变量
 
@@ -228,7 +249,7 @@ Moments 目前先隐藏，不出现在顶部导航和 Archive 目录里。`momen
 - **先本地预览，不会推送：**在 PowerShell 中运行 `cd D:\CP-Archive`，再运行 `py -m http.server 8000`（如无 `py` 命令，试 `python -m http.server 8000`）。浏览器打开 `http://localhost:8000/`，修改保存后刷新；预览结束按 `Ctrl+C`。这一步不会上传 GitHub，也不会更新 GitHub Pages。
 - `site.contactEmail` 已填写公开邮箱，页脚会显示。
 - 至少 10 条真实 Timeline，且来源链接可以访问。
-- Moments 目前隐藏，不作为发布条件；若重新打开，再补真实内容，不要留示例文案或占位素材。
+- FANWORKS 已公开入口，MOMENTS 入口暂时隐藏；没有真实素材时显示空状态，不要放示例作品或占位图片。
 - 两份 Profile 的照片、简介、基本资料和链接均已填写。
 - 在手机和电脑上检查四个栏目、年份筛选，以及正序和倒序。
 

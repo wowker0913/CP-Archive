@@ -50,7 +50,9 @@ window.SITE_DATA = {
       links: [
         { label: "微博大号", url: "https://weibo.com/u/8011162323" },
         { label: "微博小号", url: "https://weibo.com/u/7596287858" },
-        { label: "抖音", url: "https://v.douyin.com/DXHeN_O5HAE/"}],
+        { label: "抖音", url: "https://v.douyin.com/DXHeN_O5HAE/"},
+        { label: "B站", url: "https://space.bilibili.com/471759911?spm_id_from=333.1387.follow.user_card.click"},
+      ],
       fanPosts: [
         { label: "豆瓣｜安利帖1", url: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F496146918%3F_spm_id%3DMjc0NjQ3MDg2&_i=8995541482dc228" },
         { label: "豆瓣｜安利帖2", url: "https://www.douban.com/group/topic/500007944/?_spm_id=Mjg3ODM2NjIw&_i=02252369MFMgZ3" },
@@ -435,6 +437,20 @@ window.SITE_DATA = {
       summary: "动过真感情的举手",
       source: "https://www.bilibili.com/video/BV1APHs6PESx?t=342.2&p=6"
     },
+    {
+      id: "event-261005-pocket live",
+      date: "2026-10-05",
+      title: "口袋直播",
+      summary: "11号否定句瓜花互换",
+      source: "https://www.bilibili.com/video/BV1B6Ht6NE9r?t=0.0"
+    },
+    {
+      id: "event-261011",
+      date: "2026-10-11",
+      title: "261011赫兹2.0",
+      summary: "否定句瓜花互换",
+      source: "https://www.bilibili.com/video/BV1iEpJ63Ecs?t=744.2&p=3"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
@@ -706,42 +722,110 @@ window.SITE_DATA = {
         { src: "images/timeline/kd/kd261005.jpg", alt: "口袋图片" }
       ]
     },
+    {
+      id: "event-261007",
+      date: "2026-10-07",
+      title: "队友抖音",
+      summary: "四人合照",
+      images: [
+        { src: "images/timeline/wb-dy/dy261007.jpg", alt: "抖音图片" }
+      ]
+    },
+    {
+      id: "event-261009",
+      date: "2026-10-09",
+      title: "口袋房间互动",
+      summary: "204.75cm的老龚|奇奇怪怪的合影",
+      images: [
+        { src: "images/timeline/kd/kd261009.jpg", alt: "口袋图片" },
+        { src: "images/timeline/kd/kd261009(2).jpg", alt: "口袋图片" },
+        { src: "images/timeline/kd/kd261009(3).jpg", alt: "口袋图片" },
+      ]
+    },
   ],
-  timelinePosts: [ {
+  // FANWORKS 所有内容在这里编辑，包括同人文、同人图、剪辑、延伸阅读和未分类。
+  // 每条必填唯一 id、title、url；type 填上述分类，未填或不匹配时归入未分类。
+  // 可选 creator（作者）、platform（平台）、date（YYYY-MM-DD）；个人安利帖仍在 people.fanPosts。
+  fanWorks: [
+  {
+    id: "reading-01",
+    type: "延伸阅读",
     platform: "豆瓣",
     title: "提前嗑一下小木筏未来新晋队内cp 龚晨美×覃柯蒙",
     date: "2025-05-31",
     url: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F327384712%3F_spm_id%3DMjAwNTU4NzI0&_i=9017157682dc228"
   },
   {
+    id: "reading-02",
+    type: "延伸阅读",
     platform: "豆瓣",
     title: "kiyo米——八百倍速走完别的cp一生(已复婚ing) ",
     date: "2025-10-31",
     url: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F341239030%3F_spm_id%3DMjc2NjAwMDY5&_i=9017156082dc228"
   },
   {
+    id: "reading-03",
+    type: "延伸阅读",
     platform: "豆瓣",
     title: "我们的相识比流言更早，我们的感情比永远更牢——kiyo米糖点合集（持续更新中） ",
     date: "2026-08-04",
     url: "https://www.douban.com/group/topic/496003278/?_spm_id=MjY1Nzc1OTA1&_i=02295789MFMgZ3"
   },
   {
+    id: "reading-04",
+    type: "延伸阅读",
     platform: "豆瓣",
     title: "kiyo米念信文字版 ",
     date: "2026-09-13",
     url: "https://www.douban.com/group/topic/499798367/?_spm_id=MjQ2NjUwMTQ2&_i=02273559MFMgZ3"
   },
    {
+    id: "reading-05",
+    type: "延伸阅读",
     platform: "豆瓣",
     title: "龚晨美生日公演——覃柯蒙信文字版",
     date: "2026-07-19",
     url: "https://www.douban.com/group/topic/494410080/?_spm_id=MjU2ODg1MDQ0&_i=02332399MFMgZ3"
   },
   {
+    id: "reading-06",
+    type: "延伸阅读",
     platform: "微博",
     title: "三封信完整文字版",
     date: "2026-09-19",
     url: "https://weibo.com/7996365206/RiQTxD4oP"
+  },
+  {
+    id: "reading-07",
+    type: "剪辑",
+    platform: "B站",
+    title: "与你相遇，好幸运",
+    date: "2026-09-25",
+    url: "https://www.bilibili.com/video/BV1GEhy6oEyw?t=0.0"
+  },
+  {
+    id: "reading-08",
+    type: "同人文",
+    platform: "LOFTER",
+    title: "花间无曲",
+    date: "2026-09-25",
+    url: "https://jsgang.lofter.com/post/aff613f3_34f649c1a?incantation=rzX95JCEVvby"
+  },
+  {
+    id: "reading-09",
+    type: "同人文",
+    platform: "LOFTER",
+    title: "常青树",
+    date: "2026-09-25",
+    url: "https://jsgang.lofter.com/post/aff613f3_34f4bcd88?incantation=rz3GOoJwX4Ce"
+  },
+  {
+    id: "reading-10",
+    type: "同人文",
+    platform: "LOFTER",
+    title: "怨",
+    date: "2026-09-25",
+    url: "https://jsgang.lofter.com/post/aff613f3_34ed72ddd?incantation=rzltG6eoNavk"
   },
  ],
   moments: [
