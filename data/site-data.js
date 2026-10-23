@@ -742,6 +742,15 @@ window.SITE_DATA = {
         { src: "images/timeline/kd/kd261009(3).jpg", alt: "口袋图片" },
       ]
     },
+     {
+      id: "event-261023",
+      date: "2026-10-23",
+      title: "队友房间",
+      summary: "三人合照",
+      images: [
+        { src: "images/timeline/kd/kd261023.jpg", alt: "口袋图片" }
+      ]
+    },
   ],
   // FANWORKS 所有内容在这里编辑，包括同人文、同人图、剪辑、延伸阅读和未分类。
   // 每条必填唯一 id、title、url；type 填上述分类，未填或不匹配时归入未分类。
