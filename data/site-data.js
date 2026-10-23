@@ -451,6 +451,13 @@ window.SITE_DATA = {
       summary: "否定句瓜花互换",
       source: "https://www.bilibili.com/video/BV1iEpJ63Ecs?t=744.2&p=3"
     },
+    {
+      id: "event-261018",
+      date: "2026-10-18",
+      title: "官博视频",
+      summary: "双人推手",
+      source: "http://t.cn/AXluKkOU"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
