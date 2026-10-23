@@ -458,6 +458,13 @@ window.SITE_DATA = {
       summary: "双人推手",
       source: "http://t.cn/AXluKkOU"
     },
+    {
+      id: "event-261019",
+      date: "2026-10-19",
+      title: "口袋直播",
+      summary: "生日快乐美美~一起进圈",
+      source: "https://www.bilibili.com/video/BV1RQnG6mEaD?t=0.0"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
