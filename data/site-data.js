@@ -465,6 +465,20 @@ window.SITE_DATA = {
       summary: "生日快乐美美~一起进圈",
       source: "https://www.bilibili.com/video/BV1RQnG6mEaD?t=0.0"
     },
+    {
+      id: "event-261023",
+      date: "2026-10-23",
+      title: "校园行",
+      summary: "校园小情侣",
+      source: "https://weibo.com/2689280541/Ro2OSn2cV"
+    },
+    {
+      id: "event-261024",
+      date: "2026-10-24",
+      title: "261024赫兹2.0",
+      summary: "覃柯蒙找1|埋在怀里",
+      source: "https://www.bilibili.com/video/BV1PSHK6SESh?t=576.0&p=5"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
