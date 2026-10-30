@@ -479,6 +479,20 @@ window.SITE_DATA = {
       summary: "覃柯蒙找1|埋在怀里",
       source: "https://www.bilibili.com/video/BV1PSHK6SESh?t=576.0&p=5"
     },
+    {
+      id: "event-261028",
+      date: "2026-10-28",
+      title: "261028机场汇总",
+      summary: "双A穿搭大师",
+      source: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F503869631%3F_spm_id%3DMjQ2NjUwMTQ2&_i=9337230582dc228"
+    },
+    {
+      id: "event-261029",
+      date: "2026-10-29",
+      title: "261029万圣联合公演",
+      summary: "你为什么能路过？",
+      source: "https://www.bilibili.com/video/BV1U3xA6XEsn?t=925.4&p=2"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
@@ -823,14 +837,6 @@ window.SITE_DATA = {
     title: "龚晨美生日公演——覃柯蒙信文字版",
     date: "2026-07-19",
     url: "https://www.douban.com/group/topic/494410080/?_spm_id=MjU2ODg1MDQ0&_i=02332399MFMgZ3"
-  },
-  {
-    id: "reading-06",
-    type: "延伸阅读",
-    platform: "微博",
-    title: "三封信完整文字版",
-    date: "2026-09-19",
-    url: "https://weibo.com/7996365206/RiQTxD4oP"
   },
   {
     id: "reading-07",
