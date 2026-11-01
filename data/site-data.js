@@ -56,6 +56,7 @@ window.SITE_DATA = {
       fanPosts: [
         { label: "豆瓣｜安利帖1", url: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F496146918%3F_spm_id%3DMjc0NjQ3MDg2&_i=8995541482dc228" },
         { label: "豆瓣｜安利帖2", url: "https://www.douban.com/group/topic/500007944/?_spm_id=Mjg3ODM2NjIw&_i=02252369MFMgZ3" },
+        { label: "个人安利网站", url: "https://mimihere.pages.dev/" },
         //{ label: "微博｜图文整理标题", url: "https://帖子完整链接" }
         ]
     }
@@ -451,6 +452,55 @@ window.SITE_DATA = {
       summary: "否定句瓜花互换",
       source: "https://www.bilibili.com/video/BV1iEpJ63Ecs?t=744.2&p=3"
     },
+     {
+      id: "event-261018",
+      date: "2026-10-18",
+      title: "官博视频",
+      summary: "双人推手",
+      source: "http://t.cn/AXluKkOU"
+    },
+    {
+      id: "event-261019",
+      date: "2026-10-19",
+      title: "口袋直播",
+      summary: "生日快乐美美~一起进圈",
+      source: "https://www.bilibili.com/video/BV1RQnG6mEaD?t=0.0"
+    },
+    {
+      id: "event-261023-campus",
+      date: "2026-10-23",
+      title: "校园行",
+      summary: "校园小情侣",
+      source: "https://weibo.com/2689280541/Ro2OSn2cV"
+    },
+    {
+      id: "event-261024",
+      date: "2026-10-24",
+      title: "261024赫兹2.0",
+      summary: "覃柯蒙找1|埋在怀里",
+      source: "https://www.bilibili.com/video/BV1PSHK6SESh?t=576.0&p=5"
+    },
+    {
+      id: "event-261028",
+      date: "2026-10-28",
+      title: "261028机场汇总",
+      summary: "双A穿搭大师",
+      source: "https://www.douban.com/doubanapp/dispatch?uri=%2Fgroup%2Ftopic%2F503869631%3F_spm_id%3DMjQ2NjUwMTQ2&_i=9337230582dc228"
+    },
+    {
+      id: "event-261029",
+      date: "2026-10-29",
+      title: "261029万圣联合公演",
+      summary: "你为什么能路过？",
+      source: "https://www.bilibili.com/video/BV1U3xA6XEsn?t=925.4&p=2"
+    },
+    {
+      id: "event-261031-sports",
+      date: "2026-10-31",
+      title: "261031运动会汇总",
+      summary: "黏在一起的两人",
+      source: "https://www.douban.com/group/topic/504178249/?_spm_id=MTU0NTU2MjU2&_i=35070479MFMgZ3"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
@@ -745,10 +795,29 @@ window.SITE_DATA = {
      {
       id: "event-261023",
       date: "2026-10-23",
-      title: "队友房间",
+      title: "队友口袋房间",
       summary: "三人合照",
       images: [
         { src: "images/timeline/kd/kd261023.jpg", alt: "口袋图片" }
+      ]
+    },
+    {
+      id: "event-261031-pocket",
+      date: "2026-10-31",
+      title: "队友口袋房间",
+      summary: "三人合照",
+      images: [
+        { src: "images/timeline/kd/kd261031.jpg", alt: "口袋图片" }
+      ]
+    },
+    {
+      id: "event-261101",
+      date: "2026-11-01",
+      title: "官抖",
+      summary: "双人合照",
+      source: "https://v.douyin.com/mYAhPrxHSVY/",
+      images: [
+        { src: "images/timeline/wb-dy/dy261101.jpg", alt: "抖音图片" }
       ]
     },
   ],
