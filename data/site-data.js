@@ -501,6 +501,13 @@ window.SITE_DATA = {
       summary: "黏在一起的两人",
       source: "https://www.douban.com/group/topic/504178249/?_spm_id=MTU0NTU2MjU2&_i=35070479MFMgZ3"
     },
+    {
+      id: "event-261101",
+      date: "2026-11-01",
+      title: "261101美美口袋直播",
+      summary: "外套被覃妤千借走了",
+      source: "https://weibo.com/8308734934/RpoS3jUwu"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
