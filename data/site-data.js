@@ -452,7 +452,7 @@ window.SITE_DATA = {
       summary: "否定句瓜花互换",
       source: "https://www.bilibili.com/video/BV1iEpJ63Ecs?t=744.2&p=3"
     },
-     {
+    {
       id: "event-261018",
       date: "2026-10-18",
       title: "官博视频",
@@ -864,14 +864,6 @@ window.SITE_DATA = {
     title: "龚晨美生日公演——覃柯蒙信文字版",
     date: "2026-07-19",
     url: "https://www.douban.com/group/topic/494410080/?_spm_id=MjU2ODg1MDQ0&_i=02332399MFMgZ3"
-  },
-  {
-    id: "reading-06",
-    type: "延伸阅读",
-    platform: "微博",
-    title: "三封信完整文字版",
-    date: "2026-09-19",
-    url: "https://weibo.com/7996365206/RiQTxD4oP"
   },
   {
     id: "reading-07",
