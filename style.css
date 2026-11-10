@@ -1,5 +1,5 @@
 :root {
-  color-scheme: only light;
+  color-scheme: light;
   /* 应援色：用于人物名字、侧边小标签、节点与相框细线。 */
   --color-qkm: #598fa9;          /* 覃柯蒙：海蓝。 */
   --color-qkm-deep: #32647b;     /* 覃柯蒙：用于可读文字的深海蓝。 */
@@ -20,7 +20,7 @@
   --font-body: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", Arial, sans-serif; /* 中文正文和控件。 */
 
   /* 字号：正文保持清晰，超大标题用 clamp() 自动适配手机与电脑。 */
-  --text-xs: 10px;               /* 编号、版权和细小说明。 */
+  --text-xs: 12px;               /* 编号、版权和细小说明。 */
   --text-sm: 13px;               /* 导航、日期和链接。 */
   --text-body: 15px;             /* 正文和事件简述。 */
   --text-title: clamp(48px, 6vw, 84px); /* 内页大标题。 */
@@ -250,7 +250,7 @@ body[data-page="home"] .site-header { max-width: 1600px; }
 .choice-image::before { content: ""; position: absolute; bottom: 14px; left: 12px; width: 36px; height: 1px; background: var(--frame-accent); }
 .choice-image::after { content: ""; position: absolute; right: 12px; bottom: 11px; width: 6px; height: 6px; border: 1px solid var(--frame-accent); border-radius: 50%; }
 .choice-copy { position: relative; align-self: end; min-width: 0; margin-left: -32px; padding: 34px 26px; background: rgba(244, 243, 238, .96); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.choice-copy span { color: var(--muted); font-family: var(--serif); font-size: 10px; letter-spacing: .24em; }
+.choice-copy span { color: var(--muted); font-family: var(--serif); font-size: 12px; letter-spacing: .24em; }
 .choice-copy h2 { margin: 18px 0 5px; color: var(--ink); font-family: var(--serif); font-size: clamp(34px, 4vw, 54px); font-weight: 400; }
 .choice-copy p { display: inline-block; margin: 0; color: var(--muted); font-size: 12px; letter-spacing: .12em; background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat; background-position: left bottom; background-size: 0 1px; transition: color .25s ease, background-size .3s ease; }
 .profile-choice:hover .choice-copy p,
@@ -315,7 +315,7 @@ body[data-page="home"] .site-header { max-width: 1600px; }
 .timeline-event + .timeline-event { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
 .timeline-entry time { padding-top: 3px; color: var(--ink); text-align: right; font-family: var(--serif); font-size: 15px; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
 .timeline-entry time.timeline-range { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; letter-spacing: .02em; line-height: 1.25; white-space: nowrap; }
-.timeline-range .range-mark { font-size: 11px; letter-spacing: 0; line-height: 1; }
+.timeline-range .range-mark { font-size: 12px; letter-spacing: 0; line-height: 1; }
 .timeline-node { position: relative; border-left: 1px solid var(--line); }
 .timeline-node::before { content: ""; position: absolute; top: 5px; left: -5px; width: 9px; height: 9px; border: 1px solid var(--color-qkm); border-radius: 50%; background: var(--paper); }
 .timeline-entry h2 { margin: 0 0 12px; font-family: var(--serif); font-size: 27px; font-weight: 400; line-height: 1.35; }
@@ -367,7 +367,7 @@ body[data-page="home"] .site-header { max-width: 1600px; }
 body[data-page="moments"] { background-image: none; }
 .album-shell { width: min(1360px, calc(100% - 64px)); min-height: calc(100svh - 170px); margin: 0 auto; padding: calc(var(--header-h) + 32px) 0 56px; }
 .album-intro { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px 24px; }
-.album-intro .section-code { margin: 0; color: var(--blue-dark); font-size: 11px; }
+.album-intro .section-code { margin: 0; color: var(--blue-dark); font-size: 12px; }
 .album-intro h1 { margin: 0; font-family: var(--serif); font-size: clamp(23px, 2.5vw, 30px); font-weight: 400; letter-spacing: .04em; line-height: 1.3; }
 .album-preview-label { margin-left: auto; color: var(--muted); font-size: 12px; }
 .album-shelf { margin-top: 20px; }
@@ -389,7 +389,7 @@ body[data-page="moments"] { background-image: none; }
 .album-control:disabled { color: #92998d; cursor: default; }
 .album-shelf-caption, .album-page-caption { text-align: center; }
 .album-shelf-caption p, .album-page-caption p { margin: 0; font-size: 13px; font-variant-numeric: tabular-nums; }
-.album-shelf-caption .album-hint, .album-page-caption .album-hint { margin-top: 6px; color: var(--muted); font-size: 11px; }
+.album-shelf-caption .album-hint, .album-page-caption .album-hint { margin-top: 6px; color: var(--muted); font-size: 12px; }
 .album-reader { margin-top: 24px; }
 .album-reader-heading { display: flex; justify-content: space-between; align-items: center; width: min(1080px, 100%); margin: 0 auto 12px; }
 .album-back { min-height: 44px; padding: 6px 0; color: var(--blue-dark); background: transparent; border: 0; font-size: 13px; cursor: pointer; }
@@ -412,7 +412,7 @@ body[data-page="moments"] { background-image: none; }
 .album-photo img { width: 100%; height: 100%; max-width: 88%; max-height: 86%; min-height: 0; object-fit: contain; }
 .album-photo.is-loading img { opacity: 0; }
 .album-photo:active { opacity: .86; }
-.album-page-note { display: flex; align-items: end; justify-content: space-between; gap: 12px; flex: none; min-height: 18px; color: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+.album-page-note { display: flex; align-items: end; justify-content: space-between; gap: 12px; flex: none; min-height: 18px; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
 .album-page-note > div { min-width: 0; }
 .album-page-note p { margin: 3px 0 0; overflow-wrap: anywhere; font-size: 12px; line-height: 1.55; max-height: 4.65em; overflow: auto; }
 .album-page-note > span { flex: none; font-family: var(--serif); }
@@ -434,7 +434,7 @@ body[data-page="moments"] { background-image: none; }
 @media (max-width: 767px) {
   .album-shell { width: calc(100% - 32px); padding-top: calc(var(--header-h) + 24px); padding-bottom: 40px; }
   .album-intro { gap: 4px 16px; }
-  .album-intro .section-code { font-size: 10px; }
+  .album-intro .section-code { font-size: 12px; }
   .album-intro h1 { font-size: 22px; }
   .album-shelf { margin-top: 14px; }
   .year-carousel { --cover-h: clamp(260px, calc(100svh - 300px), 380px); }
@@ -550,7 +550,7 @@ html.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
   .site-nav.open { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
   .site-nav a { display: flex; align-items: center; gap: 14px; width: 100%; min-height: 46px; padding: 0 14px; border-radius: 4px; color: var(--ink); font-size: 13px; line-height: 1; }
   .site-nav a + a { margin-top: 2px; }
-  .site-nav a .nav-index { display: block; width: 22px; color: var(--muted); font-family: var(--sans); font-size: 10px; }
+  .site-nav a .nav-index { display: block; width: 22px; color: var(--muted); font-family: var(--sans); font-size: 12px; }
   .site-nav a:hover, .site-nav a:active, .site-nav a:focus-visible, .site-nav a[aria-current="page"] { background: var(--paper-deep); }
   .site-nav a::after { display: none; }
 }
@@ -570,7 +570,7 @@ html.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
   .site-nav.open { opacity: 1; visibility: visible; transform: none; pointer-events: auto; }
   .site-nav a { position: relative; display: flex; flex-direction: row; align-items: center; justify-content: flex-start; gap: 14px; width: 100%; min-height: 46px; padding: 0 14px; border: 0; border-radius: 4px; background: transparent; color: var(--ink); font-size: 13px; letter-spacing: .14em; line-height: 1; }
   .site-nav a + a { margin-top: 2px; }
-  .site-nav a .nav-index { display: block; width: 22px; color: var(--muted); font-family: var(--sans); font-size: 10px; letter-spacing: .12em; }
+  .site-nav a .nav-index { display: block; width: 22px; color: var(--muted); font-family: var(--sans); font-size: 12px; letter-spacing: .12em; }
   .site-nav a .nav-label { display: block; font-family: var(--serif); }
   .site-nav a:hover, .site-nav a:active, .site-nav a:focus-visible { border-color: transparent; background: var(--paper-deep); }
   .site-nav a[aria-current="page"] { padding-left: 14px; border-color: transparent; background: var(--paper-deep); color: var(--ink); }
@@ -603,9 +603,9 @@ html.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
   .timeline-toolbar { gap: 10px; }
   .timeline-sort button { min-width: 58px; padding: 10px 14px; }
   .timeline-entry { grid-template-columns: 78px 18px minmax(0, 1fr); gap: 12px; padding-top: 24px; }
-  .timeline-entry time { font-size: 11px; }
+  .timeline-entry time { font-size: 12px; }
   .timeline-entry:has(.timeline-range) { grid-template-columns: 88px 16px minmax(0, 1fr); }
-  .timeline-range .range-mark { font-size: 10px; }
+  .timeline-range .range-mark { font-size: 12px; }
   .timeline-entry.timeline-shared h2 { font-size: 18px; }
   .timeline-event + .timeline-event { margin-top: 14px; padding-top: 14px; }
   .timeline-entry h2 { font-size: 22px; }
@@ -659,3 +659,139 @@ html.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
   html.js .reveal { opacity: 1; transform: none; transition: none; }
   .album-shell *, .album-shell *::before, .album-shell *::after { transition: none !important; animation: none !important; }
 }
+
+
+/* 主题：浅色沿用暖纸，深色使用深墨纸与提亮的应援色。 */
+:root {
+  --surface-frame: #faf9f5;
+  --surface-raised: #fdfcf9;
+  --surface-card: rgba(244, 243, 238, .96);
+  --header-fallback: rgba(253, 252, 249, .94);
+  --texture: rgba(36, 43, 41, .035);
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-paper: #161b19;
+  --color-paper-deep: #222b26;
+  --color-ink: #edeae3;
+  --color-muted: #b2beb7;
+  --color-line: rgba(237, 234, 227, .23);
+  --color-qkm: #7fb0c9;
+  --color-qkm-deep: #a9cede;
+  --color-qkm-soft: #1e2c34;
+  --color-gcm: #8cb59a;
+  --color-gcm-deep: #b5d7c1;
+  --color-gcm-soft: #202d26;
+  --surface-frame: #252d28;
+  --surface-raised: #202823;
+  --surface-card: rgba(35, 45, 39, .97);
+  --header-fallback: rgba(32, 40, 35, .94);
+  --texture: rgba(237, 234, 227, .025);
+}
+body { background-image: radial-gradient(var(--texture) .5px, transparent .5px); }
+.site-header {
+  background: var(--header-fallback);
+  background: color-mix(in srgb, var(--surface-raised) 92%, transparent);
+  border-radius: 999px;
+  -webkit-backdrop-filter: blur(12px);
+}
+.site-nav { order: 1; margin-left: auto; }
+.theme-toggle {
+  order: 2; display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  flex: none; min-height: 44px; margin-left: clamp(16px, 2vw, 30px); padding: 0 10px;
+  color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: 999px;
+  font-size: 12px; cursor: pointer;
+}
+.theme-toggle:hover { background: var(--paper-deep); border-color: var(--color-qkm-deep); }
+.menu-toggle { order: 3; }
+.couple-frame { background: linear-gradient(var(--surface-frame), var(--surface-frame)) padding-box, linear-gradient(135deg, var(--color-gcm), var(--color-qkm)) border-box; }
+.choice-image, .person-image { background: var(--surface-frame); }
+.choice-copy { background: var(--surface-card); }
+.timeline-toolbar select:hover, .timeline-shot { background: var(--surface-frame); }
+:root[data-theme="dark"] .year-cover { color: var(--ink); background: #36453a; border-color: var(--line); }
+:root[data-theme="dark"] .year-album:active .year-cover { background: #46584b; }
+:root[data-theme="dark"] .year-cover::after { background: repeating-linear-gradient(to right, #778579 0 1px, #465349 1px 2px); }
+:root[data-theme="dark"] .album-control:disabled { color: #839188; }
+:root[data-theme="dark"] .album-book { box-shadow: 0 14px 28px -20px #000, 0 4px 0 -1px #4e5b50, 0 7px 0 -2px #303b33; }
+:root[data-theme="dark"] .album-page { background: var(--surface-raised); border-color: var(--line); }
+:root[data-theme="dark"] .album-page-blank { background: var(--paper-deep); }
+:root[data-theme="dark"] .album-video-action { background: var(--surface-card); }
+@media (max-width: 900px) {
+  .site-nav { order: initial; margin-left: 0; background: var(--surface-raised); }
+  .theme-toggle { margin-left: auto; margin-right: 10px; }
+}
+@media (max-width: 700px) {
+  .site-header { inset: 8px 12px auto; padding: 0 14px; border: 1px solid var(--line); background: var(--header-fallback); background: color-mix(in srgb, var(--surface-raised) 94%, transparent); backdrop-filter: blur(12px); }
+  .site-nav { background: var(--surface-raised); }
+  .theme-toggle { margin-right: 6px; padding: 0 9px; }
+}
+@media (max-width: 380px) {
+  .theme-toggle { width: 44px; padding: 0; }
+  .theme-toggle .theme-label { display: none; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  body, .site-header, .site-footer, .choice-copy, .choice-image, .person-image { transition: background-color .35s ease, color .35s ease, border-color .35s ease; }
+}
+
+
+/* Timeline 与 Fanworks：在原有纸色和应援色上改善长列表浏览。 */
+body[data-page="timeline"] .timeline-toolbar,
+body[data-page="fanworks"] .fanworks-filters {
+  position: sticky; top: calc(var(--header-h) + 22px); z-index: 20;
+  background: var(--header-fallback);
+  background: color-mix(in srgb, var(--surface-raised) 95%, transparent);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  border: 1px solid var(--line); border-radius: 12px;
+}
+body[data-page="timeline"] .timeline-toolbar { padding: 12px 16px; margin-top: 30px; }
+.timeline-layout { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 30px; align-items: start; margin-top: 32px; }
+.timeline-years { position: sticky; top: calc(var(--header-h) + 116px); display: flex; flex-direction: column; gap: 8px; }
+.timeline-years a { min-height: 44px; display: grid; place-items: center; color: var(--muted); text-decoration: none; font-family: var(--serif); border: 1px solid transparent; border-radius: 8px; }
+.timeline-years a:hover, .timeline-years a[aria-current] { color: var(--blue-dark); background: var(--color-qkm-soft); border-color: var(--color-qkm); }
+.timeline-list { width: 100%; min-width: 0; padding-top: 0; }
+.timeline-year-group { scroll-margin-top: calc(var(--header-h) + 110px); }
+.timeline-year-heading { display: flex; align-items: baseline; flex-wrap: wrap; gap: 16px; margin: 0 0 18px; color: var(--ink); font: 400 clamp(30px, 4vw, 48px)/1.2 var(--serif); }
+.timeline-year-heading span { color: var(--muted); font: 12px var(--sans); }
+.timeline-year-group + .timeline-year-group { margin-top: 52px; }
+.timeline-entry, .timeline-entry:has(.timeline-range) { grid-template-columns: 96px 16px minmax(0, 1fr); gap: 18px; margin-bottom: 14px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface-raised); transition: border-color .2s ease; scroll-margin-top: calc(var(--header-h) + 120px); }
+.timeline-entry:hover, .timeline-entry:focus-within { border-color: var(--color-qkm); }
+.timeline-entry > div { padding-bottom: 0; }
+.timeline-entry time { display: flex; flex-direction: column; align-items: center; gap: 1px; padding-top: 0; text-align: center; line-height: 1.35; }
+.timeline-entry time.timeline-range { align-items: center; }
+.timeline-date-year, .timeline-date-weekday { color: var(--muted); font: 12px var(--sans); }
+.timeline-date-day { font-size: 19px; }
+.timeline-node { border-color: var(--line); }
+.timeline-year-group .timeline-entry:nth-of-type(even) .timeline-node::before { border-color: var(--color-gcm); background: var(--color-gcm-soft); }
+.timeline-event { scroll-margin-top: calc(var(--header-h) + 120px); }
+.timeline-shots { flex-wrap: nowrap; overflow-x: auto; overscroll-behavior-inline: contain; padding: 2px 2px 10px; }
+body[data-page="fanworks"] .fanworks-filters { max-width: 1100px; margin-top: 36px; padding: 14px 16px; scroll-margin-top: calc(var(--header-h) + 30px); }
+.fanworks-search { display: flex; align-items: center; gap: 16px; }
+.fanworks-search > span { flex: 0 0 80px; color: var(--muted); font-size: 12px; }
+.fanworks-search input { width: min(100%, 380px); min-width: 0; min-height: 42px; padding: 8px 12px; color: var(--ink); background: var(--paper); border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+.fanworks-search input:focus-visible { outline: 2px solid var(--color-qkm-deep); outline-offset: 2px; }
+.fanworks-filter-row { padding: 12px 0 0; border: 0; }
+.fanworks-filter-options button { min-height: 40px; }
+.fanworks-filter-count { margin-left: 3px; font-variant-numeric: tabular-nums; }
+.fanworks-list { margin-top: 28px; }
+.fanworks-list a { justify-content: flex-start; padding: 18px 12px; border-radius: 6px; transition: color .2s ease, background-color .2s ease; }
+.fanworks-list a:hover, .fanworks-list a:focus-visible { padding-left: 12px; background: var(--paper-deep); }
+.fanwork-badge { display: grid; place-items: center; flex: 0 0 44px; height: 44px; color: var(--blue-dark); background: var(--color-qkm-soft); border-radius: 6px; font-size: 14px; }
+.fanwork-badge[data-category="同人图"], .fanwork-badge[data-category="延伸阅读"] { color: var(--green-dark); background: var(--color-gcm-soft); }
+.fanwork-copy { flex: 1; }
+@media (max-width: 760px) {
+  body[data-page="timeline"] .timeline-toolbar, body[data-page="fanworks"] .fanworks-filters { top: calc(var(--header-h) + 12px); }
+  .timeline-layout { display: block; margin-top: 22px; }
+  .timeline-years { position: static; flex-direction: row; overflow-x: auto; margin-bottom: 24px; }
+  .timeline-years a { flex: 0 0 auto; min-width: 70px; }
+  .timeline-entry, .timeline-entry:has(.timeline-range) { grid-template-columns: 64px 12px minmax(0, 1fr); gap: 10px; padding: 14px 12px; }
+  .timeline-entry h2, .timeline-entry.timeline-shared h2 { font-size: 19px; overflow-wrap: anywhere; }
+  .timeline-date-day { font-size: 16px; }
+  .timeline-year-heading { font-size: 30px; }
+  body[data-page="fanworks"] .fanworks-filters { max-height: 42vh; overflow-y: auto; }
+  .fanworks-search { gap: 9px; }
+  .fanworks-search > span { flex-basis: auto; white-space: nowrap; }
+  .fanworks-filter-row { gap: 8px; }
+  .fanworks-list a { gap: 12px; }
+  .fanwork-badge { flex-basis: 36px; height: 36px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) { .timeline-entry, .fanworks-list a { transition: none; } }

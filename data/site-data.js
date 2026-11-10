@@ -502,7 +502,7 @@ window.SITE_DATA = {
       source: "https://www.douban.com/group/topic/504178249/?_spm_id=MTU0NTU2MjU2&_i=35070479MFMgZ3"
     },
     {
-      id: "event-261101",
+      id: "event-261101-live",
       date: "2026-11-01",
       title: "261101美美口袋直播",
       summary: "外套被覃妤千借走了",

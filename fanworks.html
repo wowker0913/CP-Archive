@@ -5,6 +5,7 @@
   <meta name="description" content="kiyo米·Archive 同人二创与粉丝延伸阅读。">
   <link rel="icon" href="data:,">
   <title>Fanworks · kiyo米·Archive</title>
+  <script src="theme.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="fanworks">
@@ -16,8 +17,9 @@
       <p>收集粉丝创作，也保留关于她们的延伸阅读。</p>
     </header>
     <div id="reading" class="fanworks-filters" aria-label="筛选同人二创">
+      <label class="fanworks-search"><span>搜索作品</span><input id="fanworks-search" type="search" placeholder="搜索标题或作者" autocomplete="off"></label>
       <div class="fanworks-filter-row"><span>分类</span><div id="fanworks-types" class="fanworks-filter-options" role="group" aria-label="按内容分类筛选"></div></div>
-      <p id="fanworks-count" class="fanworks-count" aria-live="polite"></p>
+      <p id="fanworks-count" class="fanworks-count sr-only" aria-live="polite"></p>
     </div>
     <div id="fanworks-empty" class="fanworks-empty" hidden></div>
     <div id="fanworks-list" class="fanworks-list" aria-label="同人二创内容" aria-live="polite"></div>

@@ -30,7 +30,10 @@
     const header = document.querySelector("[data-site-header]");
     const footer = document.querySelector("[data-site-footer]");
     if (header) {
-      header.innerHTML = `<header class="site-header"><a class="brand" href="index.html" aria-label="kiyo米·Archive 首页"><span class="brand-dot blue"></span><span>${escapeHtml(data.site.title)}</span><span class="brand-dot green"></span></a><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span><b class="menu-label">MENU</b><b class="sr-only">打开导航</b></button><nav id="site-nav" class="site-nav" aria-label="主导航">${navItems.map(([id, index, label, href]) => `<a href="${href}"${currentPage === id ? ' aria-current="page"' : ""}><span class="nav-index">${index}</span><span class="nav-label">${label}</span></a>`).join("")}</nav></header>`;
+      header.innerHTML = `<header class="site-header"><a class="brand" href="index.html" aria-label="kiyo米·Archive 首页"><span class="brand-dot blue"></span><span>${escapeHtml(data.site.title)}</span><span class="brand-dot green"></span></a><button class="theme-toggle" type="button"><svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42m0-14.14-1.42 1.42M6.35 17.65l-1.42 1.42"></path></svg><span class="theme-label">深色</span></button><button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span><b class="menu-label">MENU</b><b class="sr-only">打开导航</b></button><nav id="site-nav" class="site-nav" aria-label="主导航">${navItems.map(([id, index, label, href]) => `<a href="${href}"${currentPage === id ? ' aria-current="page"' : ""}><span class="nav-index">${index}</span><span class="nav-label">${label}</span></a>`).join("")}</nav></header>`;
+      const themeToggle = header.querySelector(".theme-toggle");
+      themeToggle.addEventListener("click", () => window.archiveTheme?.toggle());
+      window.archiveTheme?.apply();
       const toggle = header.querySelector(".menu-toggle");
       const nav = header.querySelector(".site-nav");
       const setMenuState = (open) => { toggle.setAttribute("aria-expanded", String(open)); toggle.querySelector(".sr-only").textContent = open ? "关闭导航" : "打开导航"; nav.classList.toggle("open", open); document.body.classList.toggle("menu-open", open); };
@@ -142,6 +145,8 @@
     const root = document.querySelector("#timeline-list");
     const select = document.querySelector("#year-filter");
     const sortButtons = [...document.querySelectorAll(".timeline-sort [data-order]")];
+    const yearsNav = document.querySelector("#timeline-years");
+    let yearObserver;
     if (!root || !select) return;
     const events = [...data.timeline];
     const years = [...new Set(events.flatMap(eventYears))].sort((a, b) => b.localeCompare(a));
@@ -158,7 +163,7 @@
         const sources = rawSources.map((source) => typeof source === "string" ? { label: "\u67e5\u770b\u539f\u59cb\u6765\u6e90", url: source } : source).filter((source) => source && source.url);
         const sourceLinks = sources.length ? `<div class="timeline-sources">${sources.map((source) => `<a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label || "\u67e5\u770b\u539f\u59cb\u6765\u6e90")} <span aria-hidden="true">\u2197</span></a>`).join("")}</div>` : "";
         const shots = Array.isArray(event.images) ? event.images.filter((image) => image && image.src && !String(image.src).includes("帖子完整链接")) : [];
-        const shotStrip = shots.length ? `<div class="timeline-shots">${shots.map((image) => `<button type="button" class="timeline-shot" data-shot-src="${escapeHtml(image.src)}" data-shot-alt="${escapeHtml(image.alt || event.title || "互动截图")}" data-shot-source="${escapeHtml(image.source || "")}"><img src="${escapeHtml(image.thumb || image.src)}" alt="${escapeHtml(image.alt || event.title || "互动截图")}" loading="lazy"></button>`).join("")}</div>` : "";
+        const shotStrip = shots.length ? `<div class="timeline-shots">${shots.map((image) => `<button type="button" class="timeline-shot" data-shot-src="${escapeHtml(image.src)}" data-shot-alt="${escapeHtml(image.alt || event.title || "互动截图")}" data-shot-source="${escapeHtml(image.source || "")}"><img src="${escapeHtml(image.thumb || image.src)}" alt="${escapeHtml(image.alt || event.title || "互动截图")}" loading="lazy" decoding="async" width="120" height="156"></button>`).join("")}</div>` : "";
         return `<h2>${escapeHtml(event.title)}</h2><p>${escapeHtml(event.summary)}</p>${shotStrip}${sourceLinks}`;
       };
       const groups = [];
@@ -172,16 +177,43 @@
           groups.push({ date: event.date || "", events: [event] });
         }
       });
-      root.innerHTML = groups.length ? groups.map((group) => {
+      const byYear = new Map();
+      groups.forEach((group) => {
+        const year = group.date.slice(0, 4) || "undated";
+        if (!byYear.has(year)) byYear.set(year, []);
+        byYear.get(year).push(group);
+      });
+      const dateMarkup = (date) => {
+        if (!isIsoDate(date)) return escapeHtml(date);
+        const parts = date.split("-");
+        const day = new Date(`${date}T00:00:00Z`).getUTCDay();
+        return `<span class="timeline-date-year">${escapeHtml(parts[0])}</span><span class="timeline-date-day">${escapeHtml(parts[1] + "." + parts[2])}</span><span class="timeline-date-weekday">${["周日", "周一", "周二", "周三", "周四", "周五", "周六"][day]}</span>`;
+      };
+      const renderGroup = (group) => {
         if (group.events.length === 1) {
           const event = group.events[0];
           const span = eventSpan(event);
-          const timeMarkup = span.markup ? `<time class="timeline-range" datetime="${escapeHtml(span.start + "/" + span.end)}">${span.markup}</time>` : `<time datetime="${escapeHtml(event.date)}">${escapeHtml((event.date || "").replaceAll("-", "."))}</time>`;
+          const timeMarkup = span.markup ? `<time class="timeline-range" datetime="${escapeHtml(span.start + "/" + span.end)}">${span.markup}</time>` : `<time datetime="${escapeHtml(event.date)}">${dateMarkup(event.date)}</time>`;
           return `<article class="timeline-entry reveal" id="${escapeHtml(timelineAnchor(event, data.timeline))}">${timeMarkup}<span class="timeline-node" aria-hidden="true"></span><div>${eventBody(event)}</div></article>`;
         }
         const inner = group.events.map((event) => `<section class="timeline-event" id="${escapeHtml(timelineAnchor(event, data.timeline))}">${eventBody(event)}</section>`).join("");
-        return `<article class="timeline-entry timeline-shared reveal"><time datetime="${escapeHtml(group.date)}">${escapeHtml(group.date.replaceAll("-", "."))}</time><span class="timeline-node" aria-hidden="true"></span><div class="timeline-day-events">${inner}</div></article>`;
-      }).join("") : emptyState("\u65f6\u95f4\u7ebf\u6b63\u5728\u6574\u7406", order === "asc" ? "\u771f\u5b9e\u4e8b\u4ef6\u53ca\u539f\u59cb\u6765\u6e90\u6574\u7406\u5b8c\u6210\u540e\uff0c\u5c06\u6309\u65f6\u95f4\u6b63\u5e8f\u51fa\u73b0\u5728\u8fd9\u91cc\u3002" : "\u771f\u5b9e\u4e8b\u4ef6\u53ca\u539f\u59cb\u6765\u6e90\u6574\u7406\u5b8c\u6210\u540e\uff0c\u5c06\u6309\u65f6\u95f4\u5012\u5e8f\u51fa\u73b0\u5728\u8fd9\u91cc\u3002");
+        return `<article class="timeline-entry timeline-shared reveal"><time datetime="${escapeHtml(group.date)}">${dateMarkup(group.date)}</time><span class="timeline-node" aria-hidden="true"></span><div class="timeline-day-events">${inner}</div></article>`;
+      };
+      root.innerHTML = groups.length ? [...byYear].map(([year, entries]) => `<section class="timeline-year-group" id="timeline-year-${escapeHtml(year)}" data-year="${escapeHtml(year)}"><h2 class="timeline-year-heading">${escapeHtml(year === "undated" ? "未注明年份" : year)} <span>${entries.reduce((count, group) => count + group.events.length, 0)} 条事件</span></h2>${entries.map(renderGroup).join("")}</section>`).join("") : emptyState("时间线正在整理", order === "asc" ? "真实事件及原始来源整理完成后，将按时间正序出现在这里。" : "真实事件及原始来源整理完成后，将按时间倒序出现在这里。");
+      yearsNav.innerHTML = [...byYear.keys()].map((year) => `<a href="#timeline-year-${escapeHtml(year)}" data-year="${escapeHtml(year)}">${escapeHtml(year === "undated" ? "其他" : year)}</a>`).join("");
+      if (yearObserver) yearObserver.disconnect();
+      if ("IntersectionObserver" in window) {
+        yearObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            yearsNav.querySelectorAll("a").forEach((link) => {
+              if (link.dataset.year === entry.target.dataset.year) link.setAttribute("aria-current", "location");
+              else link.removeAttribute("aria-current");
+            });
+          });
+        }, { rootMargin: "-30% 0px -60% 0px" });
+        root.querySelectorAll(".timeline-year-group").forEach((group) => yearObserver.observe(group));
+      }
       observeReveals();
     };
     select.addEventListener("change", draw);
@@ -215,13 +247,16 @@
     const typeRoot = document.querySelector("#fanworks-types");
     const countRoot = document.querySelector("#fanworks-count");
     const emptyRoot = document.querySelector("#fanworks-empty");
+    const search = document.querySelector("#fanworks-search");
     const works = Array.isArray(data.fanWorks) ? data.fanWorks.filter((work) => work && work.id && work.title && /^https?:\/\//i.test(work.url || "")) : [];
     const types = ["同人文", "同人图", "剪辑", "延伸阅读", "未分类"];
     const items = works.map((work) => ({ ...work, category: types.includes(work.type) ? work.type : "未分类" })).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
     let selectedType = location.hash === "#reading" ? "延伸阅读" : "__all__";
-    typeRoot.innerHTML = [["__all__", "全部"], ...types.map((type) => [type, type])].map(([value, label]) => `<button type="button" data-value="${escapeHtml(value)}" aria-controls="fanworks-list" aria-pressed="false">${escapeHtml(label)}</button>`).join("");
+    const badgeLabels = { "同人文": "文", "同人图": "图", "剪辑": "剪", "延伸阅读": "读", "未分类": "其他" };
+    typeRoot.innerHTML = [["__all__", "全部"], ...types.map((type) => [type, type])].map(([value, label]) => `<button type="button" data-value="${escapeHtml(value)}" aria-controls="fanworks-list" aria-pressed="false">${escapeHtml(label)} <span class="fanworks-filter-count">${value === "__all__" ? items.length : items.filter((item) => item.category === value).length}</span></button>`).join("");
     const draw = () => {
-      const visibleItems = items.filter((item) => selectedType === "__all__" || item.category === selectedType);
+      const query = search.value.trim().toLocaleLowerCase();
+      const visibleItems = items.filter((item) => (selectedType === "__all__" || item.category === selectedType) && (!query || [item.title, item.creator].some((value) => String(value || "").toLocaleLowerCase().includes(query))));
       typeRoot.querySelectorAll("button[data-value]").forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.value === selectedType)));
       countRoot.textContent = `显示 ${visibleItems.length} 条内容`;
       root.hidden = !visibleItems.length;
@@ -229,13 +264,14 @@
       if (visibleItems.length) {
         root.innerHTML = `<ol>${visibleItems.map((item) => {
           const details = [item.category, item.creator ? `作者：${item.creator}` : "", item.platform, item.date].filter(Boolean);
-          return `<li${item.id ? ` id="${escapeHtml(item.id)}"` : ""}><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer"><span class="fanwork-copy"><span class="fanwork-title">${escapeHtml(item.title)}</span><small>${details.map(escapeHtml).join(" · ")}</small></span><span class="fanwork-arrow" aria-hidden="true">↗</span></a></li>`;
+          return `<li${item.id ? ` id="${escapeHtml(item.id)}"` : ""}><a href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer"><span class="fanwork-badge" data-category="${escapeHtml(item.category)}" aria-hidden="true">${escapeHtml(badgeLabels[item.category])}</span><span class="fanwork-copy"><span class="fanwork-title">${escapeHtml(item.title)}</span><small>${details.map(escapeHtml).join(" · ")}</small></span><span class="fanwork-arrow" aria-hidden="true">↗</span></a></li>`;
         }).join("")}</ol>`;
       } else {
         root.replaceChildren();
-        emptyRoot.innerHTML = selectedType === "__all__" ? emptyState("内容正在整理", "粉丝创作与延伸阅读整理好后，会从这里前往原作。") : emptyState("这个分类暂时没有内容", "可以选择其他分类，或查看全部内容。");
+        emptyRoot.innerHTML = query ? emptyState("没有找到相关作品", "试试其他标题或作者，或清除搜索条件。") : selectedType === "__all__" ? emptyState("内容正在整理", "粉丝创作与延伸阅读整理好后，会从这里前往原作。") : emptyState("这个分类暂时没有内容", "可以选择其他分类，或查看全部内容。");
       }
     };
+    search.addEventListener("input", draw);
     typeRoot.addEventListener("click", (event) => {
       const button = event.target.closest("button[data-value]");
       if (!button) return;

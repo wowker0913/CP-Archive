@@ -5,6 +5,7 @@
   <meta name="description" content="覃柯蒙与龚晨美共同经历的时间线。">
   <link rel="icon" href="data:,">
   <title>Timeline · kiyo米·Archive</title>
+  <script src="theme.js"></script>
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="timeline">
@@ -22,7 +23,10 @@
         <button type="button" class="sort-button" data-order="asc" aria-pressed="false">正序</button>
       </div>
     </section>
-    <section id="timeline-list" class="timeline-list" aria-live="polite"></section>
+    <div class="timeline-layout">
+      <nav id="timeline-years" class="timeline-years" aria-label="按年份定位"></nav>
+      <section id="timeline-list" class="timeline-list" aria-live="polite"></section>
+    </div>
   </main>
   <div data-site-footer></div>
   <script src="data/site-data.js"></script><script src="script.js"></script>
