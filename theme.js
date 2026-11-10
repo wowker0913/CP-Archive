@@ -20,14 +20,18 @@
     toggle() {
       choice = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
       try { localStorage.setItem(key, choice); } catch (_) {}
-      const url = new URL(location.href);
-      if (url.searchParams.has("theme")) {
-        url.searchParams.delete("theme");
-        history.replaceState(history.state, "", url.pathname + url.search + url.hash);
-      }
       apply();
+      try {
+        const url = new URL(location.href);
+        if (url.searchParams.has("theme")) {
+          url.searchParams.delete("theme");
+          history.replaceState(history.state, "", url.pathname + url.search + url.hash);
+        }
+      } catch (_) { /* 部分内置浏览器不允许修改历史记录；本页切换仍然生效。 */ }
     }
   };
-  media.addEventListener("change", () => { if (!choice) apply(); });
   apply();
+  const onSystemThemeChange = () => { if (!choice) apply(); };
+  if (typeof media.addEventListener === "function") media.addEventListener("change", onSystemThemeChange);
+  else if (typeof media.addListener === "function") media.addListener(onSystemThemeChange);
 })();

@@ -49,12 +49,15 @@
         }
       });
       document.addEventListener("click", (event) => { if (!nav.classList.contains("open") || toggle.contains(event.target) || nav.contains(event.target)) return; setMenuState(false); });
-      window.matchMedia("(min-width: 901px)").addEventListener("change", (event) => {
+      const desktopMedia = window.matchMedia("(min-width: 901px)");
+      const onDesktopChange = (event) => {
         if (!event.matches) return;
         const focusWasInMenu = nav.contains(document.activeElement) || document.activeElement === toggle;
         setMenuState(false);
         if (focusWasInMenu) header.querySelector(".brand")?.focus();
-      });
+      };
+      if (typeof desktopMedia.addEventListener === "function") desktopMedia.addEventListener("change", onDesktopChange);
+      else if (typeof desktopMedia.addListener === "function") desktopMedia.addListener(onDesktopChange);
     }
     if (footer) {
       const email = data.site.contactEmail ? `<a href="mailto:${escapeHtml(data.site.contactEmail)}">${escapeHtml(data.site.contactEmail)}</a>` : "联系邮箱将在发布前补充";
