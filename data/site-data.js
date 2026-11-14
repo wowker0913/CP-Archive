@@ -827,6 +827,16 @@ window.SITE_DATA = {
         { src: "images/timeline/wb-dy/dy261101.jpg", alt: "抖音图片" }
       ]
     },
+    {
+      id: "event-261112",
+      date: "2026-11-12",
+      title: "官博",
+      summary: "双人合照",
+      source: "https://weibo.com/2689280541/Rr3GuowHJ",
+      images: [
+        { src: "images/timeline/wb-dy/wb261112.jpg", alt: "微博图片" }
+      ]
+    },
   ],
   // FANWORKS 所有内容在这里编辑，包括同人文、同人图、剪辑、延伸阅读和未分类。
   // 每条必填唯一 id、title、url；type 填上述分类，未填或不匹配时归入未分类。
