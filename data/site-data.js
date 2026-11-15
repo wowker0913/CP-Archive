@@ -508,6 +508,13 @@ window.SITE_DATA = {
       summary: "外套被覃妤千借走了",
       source: "https://weibo.com/8308734934/RpoS3jUwu"
     },
+    {
+      id: "event-261115",
+      date: "2026-11-15",
+      title: "261115 Another Season",
+      summary: "这个是覃妤千~",
+      source: "https://www.bilibili.com/video/BV1E8sJ6DEyG?t=459.9&p=7"
+    },
   ],
 
   // 带截图的事件，含同时有原博链接的微博／抖音。按日期从早到晚排列。
